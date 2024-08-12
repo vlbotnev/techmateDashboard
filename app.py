@@ -17,13 +17,15 @@ def index():
 def start_analysis():
     f = request.files['file']
     if f:
-        # URL удаленного API, куда будет отправлен файл
         api_url = 'http://10.88.88.90:3000/upload/'
-        # Отправляем файл на удаленное API
-        response = requests.post(api_url, files={'file': (f.filename, f.stream, f.content_type)})
-        # Возвращаем ответ API, как есть
-        return Response(response.content, response.status_code, response.headers.items())
-    return "no file provided"
+        try:
+            response = requests.post(api_url, files={'file': (f.filename, f.stream, f.content_type)}, timeout=180)
+            return Response(response.content, response.status_code, response.headers.items())
+        except requests.exceptions.Timeout:
+            return 'The API request timed out.', 504
+        except requests.exceptions.RequestException as e:
+            return str(e), 500
+    return 'No file provided', 400
 
 
 if __name__ == "__main__":
