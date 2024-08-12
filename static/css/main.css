@@ -1,0 +1,278 @@
+body, html {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(45deg, #3498db, #9b59b6);
+  z-index: -1;
+}
+
+.content {
+  position: relative;
+  min-height: 100%;
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+}
+
+.main-container {
+  width: 80vw;
+  height: 75vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  border-radius: 50px;
+  position: relative;
+}
+
+.inner-container {
+  width: 45vw;
+  border: 2px solid #9489F5; /* Фиолетовая обводка */
+  margin-right: 0; /* Убираем любые отступы с правой стороны */
+  height: 6vh;
+  border-top-left-radius: 20px; /* Закругляем правый верхний угол */
+  border-bottom-left-radius: 20px; /* Закругляем правый нижний угол */
+  border-right: none;
+  font-size: 14px; /* Размер шрифта внутри inner-container */
+  text-align: left; /* Выравнивание текста по правому краю */
+  padding-left: 20px; /* Отступ справа */
+  align-items: center;
+}
+
+.button {
+  width: 6vw; /* Ширина кнопки */
+  height: 6vh;
+  border: 2px solid #9489F5; /* Фиолетовая обводка */
+  background-color: #9489F5; /* Фиолетовый цвет кнопки */
+  color: white; /* Белый цвет текста */
+  display: flex; /* Используем flexbox для выравнивания текста внутри */
+  align-items: center; /* Центрируем текст по вертикали */
+  justify-content: center; /* Центрируем текст по горизонтали */
+  border-top-right-radius: 20px; /* Закругляем правый верхний угол */
+  border-bottom-right-radius: 20px; /* Закругляем правый нижний угол */
+  margin-left: -1px; /* Убираем любые отступы с левой стороны */
+  user-select: none; /* Запрещаем выделение текста */
+  transition: background-color 0.3s, border-color 0.3s; /* Добавляем анимацию для цвета границы */ /* Плавное изменение фона при наведении */
+  cursor: pointer;
+}
+
+.outer-wrapper {
+  display: flex; /* Включаем flexbox для контейнера */
+  align-items: center; /* Выравниваем элементы по центру по вертикали */
+}
+
+
+.button .material-symbols-outlined {
+  font-size: 25px; /* Размер иконки, адаптируйте по нужде */
+  color: white; /* Цвет иконки */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%; /* Растягиваем иконку на всю высоту кнопки */
+  margin-left: -5px;
+}
+
+.button:hover {
+  background-color: #9d5baf; /* Чуть светлее фиолетового при наведении */
+  border-color: #9d5baf; /* Цвет границы также изменяется */
+}
+
+body, html {
+  font-family: 'Manrope', sans-serif; /* Применяем шрифт Manrope ко всему документу */
+  font-weight: 300; /* Regular */
+}
+
+.analysis-button {
+  position: absolute; /* Абсолютное позиционирование внутри main-container */
+  right: 50px; /* Отступ справа 50px */
+  bottom: 50px; /* Отступ снизу 50px */
+  padding: 10px 20px; /* Паддинг для увеличения размера кнопки */
+  background-color: #39D2C0; /* Зелёный цвет фона кнопки */
+  color: white; /* Белый цвет текста */
+  border: none; /* Убрать рамку */
+  border-radius: 20px; /* Слегка закруглённые углы */
+  cursor: pointer; /* Курсор в виде указателя */
+  font-size: 16px; /* Размер шрифта */
+  font-weight: 500; /* Regular */
+  transition: background-color 0.3s
+}
+
+.analysis-button:hover {
+  background-color: #72D8CA; /* Чуть светлее фиолетового при наведении */
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: center; /* Центрирование элементов внутри label по вертикальной оси */
+    margin-bottom: 10px; /* Небольшой отступ между чекбоксами для лучшей читаемости */
+    font-size: 14px; /* Читаемый размер шрифта для текста */
+    cursor: pointer;
+}
+
+input[type="checkbox"] {
+    margin-right: 10px; /* Отступ справа, чтобы текст не прилипал к чекбоксу */
+    cursor: pointer; /* Курсор в виде указателя при наведении */
+    display: flex;
+    align-items: center; /* Центрируем галочку внутри чекбокса по вертикали */
+    justify-content: center; /* Центрируем галочку по горизонтали */
+    accent-color: #9489F5;
+    -webkit-appearance: none; /* Убрать стандартный стиль для WebKit/Blink браузеров */
+    -moz-appearance: none;    /* Убрать стандартный стиль для Firefox */
+    appearance: none;
+    background-color: #fff; /* Фон чекбокса */
+    border: 2px solid #57636C; /* Граница чекбокса */
+    padding: 7px; /* Размер чекбокса */
+    position: relative; /* Для позиционирования псевдоэлемента */
+    border-radius: 4px;
+}
+
+input[type="checkbox"]:checked {
+  background-color: #9489F5; /* Фон чекбокса при выборе */
+  border-color: #9489F5;
+}
+
+input[type="checkbox"]:checked::after {
+  content: ''; /* Добавляем псевдоэлемент для галочки */
+  position: absolute; /* Позиционируем псевдоэлемент */
+  top: -1px; /* Положение сверху */
+  left: 3px; /* Положение слева */
+  width: 5px; /* Ширина линии галочки */
+  height: 10px; /* Высота линии галочки */
+  border: solid white; /* Цвет и стиль линии */
+  border-width: 0 2px 2px 0; /* Ширина линий галочки */
+  transform: rotate(40deg); /* Поворот для создания галочки */
+}
+
+.options-title {
+    font-size: 14px;
+    padding-top: 20px;
+}
+
+.outer-wrapper {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Легкая тень для создания эффекта подъема */
+    transition: box-shadow 0.3s; /* Плавное изменение тени */
+    position: relative; /* Убедитесь, что элемент имеет относительное позиционирование */
+    border-radius:20px;
+    /* Другие стили для outer-wrapper */
+}
+
+.outer-wrapper:hover {
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2); /* Более глубокая тень при наведении */
+}
+
+.logo {
+    position: absolute; /* Абсолютное позиционирование внутри main-container */
+    top: 50px; /* Отступ сверху */
+    left: 50px; /* Отступ слева вместо справа */
+    width: 100px; /* Задаем ширину логотипа */
+    height: auto; /* Высота автоматически изменяется пропорционально ширине */
+}
+
+#lottie-container {
+    width: 30vw; /* Новый меньший размер */
+    height: 20vh;
+    margin: 20px auto; /* Центрирование анимации */
+    display: block; /* Убедитесь, что блок видим, если он был скрыт */
+}
+
+#analysis-column-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+
+.results-container {
+  margin-left: 200px; /* Добавляем отступ слева, чтобы освободить место для логотипа и кнопок */
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around; /* Распределение блоков с пространством по краям */
+  align-items: flex-start; /* Выравнивание блоков по верхнему краю */
+  gap: 20px; /* Пространство между блоками */
+  padding: 20px; /* Отступы внутри контейнера */
+  height: 100%; /* Заполняем доступную высоту */
+}
+
+.result-box {
+  flex: 1 1 30%; /* Занимает примерно треть строки */
+  display: flex;
+  flex-direction: column; /* Вертикальное расположение содержимого */
+  justify-content: space-between; /* Равномерное распределение содержимого */
+  border: 1px solid #ccc; /* Граница блоков */
+  padding: 10px;
+  background-color: #f9f9f9; /* Светлый фон для контента */
+  border-radius: 15px; /* Закругление углов */
+  box-shadow: 0 2px 4px rgba(0,0,0,0.15); /* Тень для блоков */
+  transition: box-shadow 0.3s ease; /* Анимация изменения тени */
+  overflow: hidden; /* Скрывает переполнение */
+}
+
+.result-box:hover {
+  box-shadow: 0 8px 16px rgba(0,0,0,0.3); /* Увеличенная тень при наведении */
+}
+
+.scroll-box {
+  overflow-y: auto; /* Добавление вертикального скролла */
+  height: 100px; /* Ограничение высоты */
+}
+
+.result-box h4 {
+  font-family: 'Manrope', sans-serif; /* Использование шрифта Manrope */
+  font-size: 10px; /* Уменьшаем размер шрифта заголовков */
+  font-weight: 300; /* Полужирное начертание */
+  color: #333; /* Темно-серый цвет текста */
+  margin-top: 0; /* Убираем верхний отступ */
+  margin-bottom: 10px; /* Небольшой отступ снизу до контента */
+}
+
+.buttons-container {
+    position: absolute;
+    top: 100px; /* Отступ от верха main-container */
+    left: 50px; /* Соответствует позиционированию логотипа */
+}
+
+.download-btn, .home-btn {
+    display: flex; /* Используем flexbox для выравнивания иконок и текста */
+    align-items: center; /* Центрируем содержимое кнопок по вертикали */
+    justify-content: center; /* Центрируем содержимое кнопок по горизонтали */
+    width: 100%; /* Растягиваем кнопки на всю ширину контейнера */
+    margin-bottom: 10px; /* Отступ между кнопками */
+    padding: 10px 20px; /* Паддинги для увеличения кликабельной области */
+    background-color: #39d2c0; /* Цвет фона кнопок */
+    color: white; /* Цвет текста */
+    border: none; /* Убрать рамку */
+    border-radius: 20px; /* Скругление углов */
+    cursor: pointer; /* Курсор в виде руки */
+    transition: box-shadow 0.3s ease, background-color 0.3s ease; /* Плавное изменение тени и цвета фона */
+}
+
+.download-btn:hover, .home-btn:hover {
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.8); /* Светлая тень вокруг кнопки */
+    background-color: #72D8CA; /* Немного темнее цвет фона для download-btn */
+}
+
+.home-btn {
+    background-color: #9489F5;
+}
+
+.home-btn:hover {
+    background-color: #9d5baf; /* Немного темнее цвет фона для home-btn */
+}
+
+.material-icons {
+    margin-right: 5px; /* Отступ между иконкой и текстом */
+    font-size: 15px; /* Размер иконки */
+}
