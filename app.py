@@ -28,5 +28,31 @@ def start_analysis():
     return 'No file provided', 400
 
 
+@app.route('/download-excel')
+def download_excel():
+    file_url = request.args.get('url')
+    if not file_url:
+        return "No URL provided", 400
+
+    try:
+        response = requests.get(file_url, stream=True)
+
+        if response.status_code == 200:
+            content_disposition = response.headers.get('Content-Disposition', '')
+            filename = 'filename.xlsx'
+            if 'filename="' in content_disposition:
+                filename = content_disposition.split('filename="')[1].split('"')[0]
+
+            return Response(
+                response.iter_content(chunk_size=1024),
+                content_type=response.headers['Content-Type'],
+                headers={"Content-Disposition": f"attachment; filename=\"{filename}\""}
+            )
+        else:
+            return "Error downloading file from API", response.status_code
+    except requests.exceptions.RequestException as e:
+        return str(e), 500
+
+
 if __name__ == "__main__":
     app.run(debug=True)

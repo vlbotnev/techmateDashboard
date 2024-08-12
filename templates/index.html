@@ -184,7 +184,7 @@
 
         downloadButton.addEventListener('click', function() {
             if (downloadUrl) {
-                window.location.href = downloadUrl; // Перенаправление на URL скачивания файла
+                window.location.href = '/download-excel?url=' + encodeURIComponent(downloadUrl); // Перенаправление на URL скачивания файла
             } else {
                 alert('Ссылка на скачивание еще не доступна. Попробуйте еще раз позже.');
             }
