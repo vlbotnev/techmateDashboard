@@ -17,7 +17,7 @@
     <div class="main-container">
         <div class="analysis-column-container">
             <div id="lottie-container" style="display: none; text-align: center;"></div>
-            <p id="analysis-text" style="display: none; text-align: center;">Анализируем нашими нейросетями. Может занять 2-5 минут.</p>
+            <p id="analysis-text" style="display: none; text-align: center;">Analysing using our pipeline. Might take from 2 to 5 minutes.</p>
         </div>
         <img src="/static/images/black.svg" alt="Логотип" class="logo">
         <div class="buttons-container" style="display: none">
@@ -27,7 +27,7 @@
         <div class="column-container">
             <div class="outer-wrapper">
               <div class="inner-container">
-                    <p>Пожалуйста выберите аудиофайл для распознавания</p>
+                    <p>Please select an audio file for analysis</p>
               </div>
                 <form id="upload-form" action="/" method="post" enctype="multipart/form-data">
                   <label class="button">
@@ -37,35 +37,35 @@
                 </form>
             </div>
             <div class="options-container">
-                <p class="options-title">Выберите опции визуализации:</p>
-                <label class="checkbox-label"><input type="checkbox" name="options" value="dialogTranscribed"> Отобразить транскрибированный диалог</label>
-                <label class="checkbox-label"><input type="checkbox" name="options" value="textAnalysis"> Отобразить анализ текста</label>
-                <label class="checkbox-label"><input type="checkbox" name="options" value="generalRanking"> Отобразить общую оценку и вывод</label>
-                <label class="checkbox-label"><input type="checkbox" name="options" value="agreements"> Отобразить договоренности из разговора</label>
-                <label class="checkbox-label"><input type="checkbox" name="options" value="score"> Отобразить оценку по 10-ти балльной шкале</label>
+                <p class="options-title">Below are the visualization options:</p>
+                <label class="checkbox-label"><input type="checkbox" name="options" value="dialogTranscribed"> Display transcribed dialogue</label>
+                <label class="checkbox-label"><input type="checkbox" name="options" value="textAnalysis"> Display text analysis</label>
+                <label class="checkbox-label"><input type="checkbox" name="options" value="generalRanking"> Display overall assessment and conclusion</label>
+                <label class="checkbox-label"><input type="checkbox" name="options" value="agreements"> Display agreements from the conversation</label>
+                <label class="checkbox-label"><input type="checkbox" name="options" value="score"> Display rating on a 10-point scale</label>
             </div>
         </div>
-        <button id="analyze-button" class="analysis-button">Начать анализ</button>
+        <button id="analyze-button" class="analysis-button">Start analysis</button>
         <div id="results" style="display: none;">
             <div class="results-container">
                 <div class="result-box" id="dialogTranscribed" style="display: none;">
-                    <h4>Транскрибированный диалог</h4>
+                    <h4>Transcribed dialogue</h4>
                     <div class="scroll-box" >[dialogtranscribed]</div>
                 </div>
                 <div class="result-box" id="textAnalysis" style="display: none;">
-                    <h4>Анализ текста</h4>
+                    <h4>Text analysis</h4>
                     <div class="scroll-box">[textanalysed]</div>
                 </div>
                 <div class="result-box" id="generalRanking" style="display: none;">
-                    <h4>Общая оценка звонка (вывод и мнение)</h4>
+                    <h4>General dialog ranking (conclusion and opinion)</h4>
                     <div class="scroll-box">[generalranking]</div>
                 </div>
                 <div class="result-box" id="agreements" style="display: none;">
-                    <h4>Договоренности</h4>
+                    <h4>Agreements</h4>
                     <div class="scroll-box">[agreements]</div>
                 </div>
                 <div class="result-box" id="score" style="display: none;">
-                    <h4>Оценка по 10-ти балльной шкале</h4>
+                    <h4>Final Score</h4>
                     <div class="scroll-box">[score]</div>
                 </div>
             </div>
@@ -131,7 +131,7 @@
             })
             .catch(error => {
                 console.error('Error:', error);
-                resultsContainer.innerHTML = 'Произошла ошибка при получении данных... Возвращение на главную страницу';
+                resultsContainer.innerHTML = 'Error occurred... Moving back to main page';
                 resultsContainer.style.display = 'block';
                 lottieContainer.style.display = 'none';
                 analysisText.style.display = 'none';
@@ -166,7 +166,7 @@
             const filenameDisplay = document.querySelector('.inner-container p');
             if (event.target.files.length === 0) {
                 console.error("No file selected.");
-                filenameDisplay.textContent = 'Пожалуйста выберите аудиофайл для распознавания';
+                filenameDisplay.textContent = 'Please select an audio file for transcription.';
             } else {
                 console.log("File selected: ", event.target.files[0].name);
                 filenameDisplay.textContent = event.target.files[0].name;
@@ -186,7 +186,7 @@
             if (downloadUrl) {
                 window.location.href = '/download-excel?url=' + encodeURIComponent(downloadUrl); // Перенаправление на URL скачивания файла
             } else {
-                alert('Ссылка на скачивание еще не доступна. Попробуйте еще раз позже.');
+                alert('Link is not ready yet. Try again later');
             }
         });
 
