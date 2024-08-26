@@ -14,183 +14,128 @@
 <body>
   <div class="background"></div>
   <div class="content">
-    <div class="main-container">
-        <div class="analysis-column-container">
-            <div id="lottie-container" style="display: none; text-align: center;"></div>
-            <p id="analysis-text" style="display: none; text-align: center;">Analysing using our pipeline. Might take from 2 to 5 minutes.</p>
-        </div>
-        <img src="/static/images/black.svg" alt="Логотип" class="logo">
-        <div class="buttons-container" style="display: none">
-            <button id="download-excel" class="download-btn"><span class="material-icons">file_download</span>Скачать Excel</button>
-            <button id="back-button" class="home-btn"><span class="material-icons">replay</span>В начало</button>
-        </div>
-        <div class="column-container">
-            <div class="outer-wrapper">
-              <div class="inner-container">
-                    <p>Please select an audio file for analysis</p>
+      <img src="/static/images/black.svg" alt="Логотип" class="logo">
+      <div class="column-container">
+          <div class="for-shadow" id="main-container">
+              <div class="row-container">
+                  <div id="service-buttons" class="left-buttons-container">
+                      <div class="column-container">
+                          <button id="audio-transcription-button" class="select-service-button" style="background-color: #9489F5;"><i class="material-icons" style="font-size: 16px;">headset_mic</i>Audio analysis</button>
+                          <button id="msg-analysis-button" class="select-service-button"><i class="material-icons" style="font-size: 16px;">mail</i>Mail analysis</button>
+                          <button id="analyze-calls-button" class="analysis-button"><i class="material-icons" style="font-size: 16px;">search</i>Start analysis</button>
+                          <button id="analyze-mail-button" class="analysis-button" style="Display: none;"><i class="material-icons" style="font-size: 16px;">search</i>Start analysis</button>
+                      </div>
+                  </div>
+                  <div id="calls-container" class="calls-container" style="">
+                      <div class="column-container">
+                          <div class="outer-wrapper">
+                              <div class="inner-container">
+                                  <p>Please select an audio file for analysis</p>
+                              </div>
+                              <form id="upload-form" action="/" method="post" enctype="multipart/form-data">
+                                  <label class="button">
+                                      <span class="material-symbols-outlined">upload_file</span>
+                                      <input type="file" name="file" accept=".mp3,.wav,.m4a" style="display: none;">
+                                  </label>
+                              </form>
+                          </div>
+                          <div class="options-container">
+                              <p class="options-title">Below are the visualization options:</p>
+                              <label class="checkbox-label"><input type="checkbox" name="options" value="dialogTranscribed"> Display transcribed dialogue</label>
+                              <label class="checkbox-label"><input type="checkbox" name="options" value="textAnalysis"> Display text analysis</label>
+                              <label class="checkbox-label"><input type="checkbox" name="options" value="generalRanking"> Display overall assessment and conclusion</label>
+                              <label class="checkbox-label"><input type="checkbox" name="options" value="agreements"> Display agreements from the conversation</label>
+                              <label class="checkbox-label"><input type="checkbox" name="options" value="score"> Display rating on a 10-point scale</label>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="row-container">
+                      <div id="calls-result-options" class="left-buttons-container" style="Display: none;">
+                          <div class="column-container">
+                              <button id="general-results-calls" class="results-buttons-calls">General</button>
+                              <button id="transcription-result-calls" class="results-buttons-calls" data-target="dialogTranscribed">Transcription</button>
+                              <button id="text-analysis-calls" class="results-buttons-calls" data-target="textAnalysis">Text analysis</button>
+                              <button id="general-dialog-ranking-calls" class="results-buttons-calls" data-target="generalRanking">Conclusion</button>
+                              <button id="agreements-calls" class="results-buttons-calls" data-target="agreements">Agreements</button>
+                              <button id="final-score-calls" class="results-buttons-calls" data-target="score">Final Score</button>
+                              <button id="download-excel" class="download-btn"><i class="material-icons" style="font-size: 16px;">browser_updated</i>Download</button>
+                              <button id="back-button" class="home-btn"><i class="material-icons" style="font-size: 16px;">replay</i>Back</button>
+                          </div>
+                      </div>
+                      <div id="calls-result-container" class="calls-container" style="Display: none;">
+                          <div class="analysis-column-container">
+                              <div id="lottie-container" style="display: none; text-align: center;"></div>
+                              <p id="analysis-text" style="display: none; text-align: center;">Analysing using our pipeline. Might take from 2 to 5 minutes.</p>
+                          </div>
+                          <div id="results" style="display: none;">
+                              <div class="results-container">
+                                  <div class="result-box" id="dialogTranscribed">
+                                      <h4>Transcribed dialogue</h4>
+                                      <div class="scroll-box" >[dialogtranscribed]</div>
+                                  </div>
+                                  <div class="result-box" id="textAnalysis" >
+                                      <h4>Text analysis</h4>
+                                      <div class="scroll-box">[textanalysed]</div>
+                                  </div>
+                                  <div class="result-box" id="generalRanking" >
+                                      <h4>General dialog ranking (conclusion and opinion)</h4>
+                                      <div class="scroll-box">[generalranking]</div>
+                                  </div>
+                                  <div class="result-box" id="agreements" >
+                                      <h4>Agreements</h4>
+                                      <div class="scroll-box">[agreements]</div>
+                                  </div>
+                                  <div class="result-box" id="score">
+                                      <h4>Final Score</h4>
+                                      <div class="scroll-box">[score]</div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                  <div id="mail-container" class="calls-container" style="Display: none;">
+                      <div class="outer-wrapper">
+                          <div class="inner-container">
+                              <p id="mail-file-name">Please select a .eml file for analysis</p>
+                          </div>
+                          <form id="upload-form-mail" action="/" method="post" enctype="multipart/form-data">
+                              <label class="button">
+                                  <span class="material-symbols-outlined">upload_file</span>
+                                  <input type="file" name="file" accept=".eml" style="display: none;">
+                              </label>
+                          </form>
+                      </div>
+                  </div>
+                  <div class="row-container">
+                      <div id="mail-result-options" class="left-buttons-container" style="Display: none;">
+                          <div class="column-container">
+                              <button id="back-button-mail" class="home-btn"><i class="material-icons" style="font-size: 16px;">replay</i>Back</button>
+                          </div>
+                      </div>
+                      <div id="mail-result-container" class="calls-container" style="Display: none;">
+                          <div class="analysis-column-container">
+                              <div id="lottie-container-mail" style="display: none; text-align: center;"></div>
+                              <p id="analysis-text-mail" style="display: none; text-align: center;">Analysing using our pipeline. Might take from 2 to 5 minutes.</p>
+                          </div>
+                          <div id="results-mail" style="display: none;">
+                              <div class="results-container">
+                                  <div class="result-box" id="relevant_items">
+                                      <h4>Relevant Items</h4>
+                                      <div class="scroll-box" >[relevant_items]</div>
+                                  </div>
+                                  <div class="result-box" id="specifications">
+                                      <h4>Specifications</h4>
+                                      <div class="scroll-box">[specifications]</div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
               </div>
-                <form id="upload-form" action="/" method="post" enctype="multipart/form-data">
-                  <label class="button">
-                    <span class="material-symbols-outlined">upload_file</span>
-                    <input type="file" name="file" accept=".mp3,.wav,.m4a" style="display: none;" onchange="handleFileSelect(event)">
-                  </label>
-                </form>
-            </div>
-            <div class="options-container">
-                <p class="options-title">Below are the visualization options:</p>
-                <label class="checkbox-label"><input type="checkbox" name="options" value="dialogTranscribed"> Display transcribed dialogue</label>
-                <label class="checkbox-label"><input type="checkbox" name="options" value="textAnalysis"> Display text analysis</label>
-                <label class="checkbox-label"><input type="checkbox" name="options" value="generalRanking"> Display overall assessment and conclusion</label>
-                <label class="checkbox-label"><input type="checkbox" name="options" value="agreements"> Display agreements from the conversation</label>
-                <label class="checkbox-label"><input type="checkbox" name="options" value="score"> Display rating on a 10-point scale</label>
-            </div>
-        </div>
-        <button id="analyze-button" class="analysis-button">Start analysis</button>
-        <div id="results" style="display: none;">
-            <div class="results-container">
-                <div class="result-box" id="dialogTranscribed" style="display: none;">
-                    <h4>Transcribed dialogue</h4>
-                    <div class="scroll-box" >[dialogtranscribed]</div>
-                </div>
-                <div class="result-box" id="textAnalysis" style="display: none;">
-                    <h4>Text analysis</h4>
-                    <div class="scroll-box">[textanalysed]</div>
-                </div>
-                <div class="result-box" id="generalRanking" style="display: none;">
-                    <h4>General dialog ranking (conclusion and opinion)</h4>
-                    <div class="scroll-box">[generalranking]</div>
-                </div>
-                <div class="result-box" id="agreements" style="display: none;">
-                    <h4>Agreements</h4>
-                    <div class="scroll-box">[agreements]</div>
-                </div>
-                <div class="result-box" id="score" style="display: none;">
-                    <h4>Final Score</h4>
-                    <div class="scroll-box">[score]</div>
-                </div>
-            </div>
-
-        </div>
-    </div>
+          </div>
+      </div>
   </div>
-    <script src="/static/lottie/lottie.js"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        var animation = lottie.loadAnimation({
-            container: document.getElementById('lottie-container'), // Указываем контейнер для анимации
-            renderer: 'svg',
-            loop: true,
-            autoplay: true, // Не начинать автоматическое воспроизведение
-            path: '/static/lottie/Animation_-_1721608187797.json' // Путь к файлу анимации
-        });
-        const analyzeButton = document.getElementById('analyze-button');
-        const columnContainer = document.querySelector('.column-container');
-        const lottieContainer = document.getElementById('lottie-container');
-        const resultsContainer = document.getElementById('results');
-        const uploadForm = document.getElementById('upload-form');
-        const fileInput = uploadForm.querySelector('input[type="file"]');
-        const analysisText = document.getElementById('analysis-text');
-        const buttonContainer = document.querySelector('.buttons-container');
-        const checkboxes = document.querySelectorAll('.options-container input[type="checkbox"]'); // Получаем все чекбоксы
-        const backButton = document.getElementById('back-button');
-        const downloadButton = document.getElementById('download-excel');
-        let downloadUrl = ''; // Ссылка на скачивание файла
-
-        analyzeButton.addEventListener('click', function() {
-            if (fileInput.files.length === 0) {
-                console.error("No file selected.");
-                alert("Please select a file before analyzing.");
-                return;
-            }
-            columnContainer.style.display = 'none';
-            analyzeButton.style.display = 'none';
-            lottieContainer.style.display = 'block';
-            analysisText.style.display = 'block';
-
-
-            const formData = new FormData();
-            formData.append("file", fileInput.files[0]);
-
-            fetch('/start-analysis', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => response.json())
-            .then(data => {
-                lottieContainer.style.display = 'none';
-                analysisText.style.display = 'none';
-                resultsContainer.style.display = 'block';
-                buttonContainer.style.display = 'block';
-                document.getElementById('dialogTranscribed').querySelector('.scroll-box').textContent = data.dialog_transcribed;
-                document.getElementById('textAnalysis').querySelector('.scroll-box').textContent = data.text_analysed;
-                document.getElementById('generalRanking').querySelector('.scroll-box').textContent = data.general_ranking;
-                document.getElementById('agreements').querySelector('.scroll-box').textContent = data.agreements;
-                document.getElementById('score').querySelector('.scroll-box').textContent = data.score;
-                downloadUrl = data.excel_link
-                displayResults(data);
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                resultsContainer.innerHTML = 'Error occurred... Moving back to main page';
-                resultsContainer.style.display = 'block';
-                lottieContainer.style.display = 'none';
-                analysisText.style.display = 'none';
-                setTimeout(
-                  () => {
-                    resultsContainer.style.display = 'none';
-                    buttonContainer.style.display = 'none';
-                    columnContainer.style.display = 'block';
-                    analyzeButton.style.display = 'block';
-                  },
-                  4 * 1000
-                );
-            });
-        });
-
-        function displayResults(data) {
-            checkboxes.forEach(checkbox => {
-                const resultId = checkbox.value;
-                const resultDiv = document.getElementById(resultId);
-                if (checkbox.checked && resultDiv) {
-                    resultDiv.style.display = 'block';
-                } else {
-                    resultDiv.style.display = 'none';
-                }
-            });
-            resultsContainer.style.display = 'block';
-            buttonContainer.style.display = 'block';
-        }
-
-
-        function handleFileSelect(event) {
-            const filenameDisplay = document.querySelector('.inner-container p');
-            if (event.target.files.length === 0) {
-                console.error("No file selected.");
-                filenameDisplay.textContent = 'Please select an audio file for transcription.';
-            } else {
-                console.log("File selected: ", event.target.files[0].name);
-                filenameDisplay.textContent = event.target.files[0].name;
-            }
-        }
-
-        fileInput.addEventListener('change', handleFileSelect);
-
-        backButton.addEventListener('click', function() {
-            resultsContainer.style.display = 'none';
-            buttonContainer.style.display = 'none';
-            columnContainer.style.display = 'block';
-            analyzeButton.style.display = 'block';
-        });
-
-        downloadButton.addEventListener('click', function() {
-            if (downloadUrl) {
-                window.location.href = '/download-excel?url=' + encodeURIComponent(downloadUrl); // Перенаправление на URL скачивания файла
-            } else {
-                alert('Link is not ready yet. Try again later');
-            }
-        });
-
-    });
-</script>
+  <script src="/static/lottie/lottie.js"></script>
+  <script src="/static/js/script.js"></script>
 </body>
 </html>
