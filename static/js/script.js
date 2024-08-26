@@ -227,10 +227,12 @@ document.addEventListener('DOMContentLoaded', function() {
                         lottieContainerMail.style.display = 'none';
                         analysisTextMail.style.display = 'none';
                         resultsContainerMail.style.display = 'block';
-                        const formattedJson_relevant_items_string = JSON.stringify(jsonObject, null, 2);
-                        const formattedJson_specifications_string = JSON.stringify(jsonObject, null, 2);
-                        document.getElementById('relevant_items').querySelector('.scroll-box').innerHTML = "<pre>${formattedJson_relevant_items_string}</pre>";
-                        document.getElementById('specifications').querySelector('.scroll-box').innerHTML = "<pre>${formattedJson_specifications_string}</pre>";
+                        json_relevant_items_string = JSON.parse(data.relevant_items_string);
+                        json_specifications_string = JSON.parse(data.specifications_string);
+                        const formattedJson_relevant_items_string = JSON.stringify(json_relevant_items_string, null, 2);
+                        const formattedJson_specifications_string = JSON.stringify(json_specifications_string, null, 2);
+                        document.getElementById('relevant_items').querySelector('.scroll-box').innerHTML = `<pre>${formattedJson_relevant_items_string}</pre>`;
+                        document.getElementById('specifications').querySelector('.scroll-box').innerHTML = `<pre>${formattedJson_specifications_string}</pre>`;
                     } else {
                         console.log('Запрос все еще обрабатывается...');
                         setTimeout(checkRequestStatus, 5000); // Повторная проверка через 5 секунд
@@ -302,20 +304,16 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     backButtonMail.addEventListener('click', function() {
-        callsContainer.style.display = 'block';
-        analyzeCallsButton.style.display = 'flex';
-        callsResultContainer.style.display = 'none';
-        callsResultContainer.style.borderRadius = "0px";
-        analysisText.style.display = 'none';
+        mailContainer.style.display = 'block';
+        analyzeMailButton.style.display = 'flex';
+        mailResultContainer.style.display = 'none';
         serviceButtons.style.display = 'flex';
-        callsResultOptions.style.display = "none";
-        callsResultContainer.style.width = "";
-        callsResultContainer.style.height = "";
-
-        resultsContainer.style.display = 'none';
-        //buttonContainer.style.display = 'none';
-        //columnContainer.style.display = 'block';
-        //analyzeCallsButton.style.display = 'block';
+        mailResultOptions.style.display = "none";
+        mailResultContainer.style.borderTopLeftRadius = "0px"; /* Закругляем правый верхний угол */
+        mailResultContainer.style.borderBottomLeftRadius = "0px"; /* Закругляем правый нижний угол */
+        lottieContainerMail.style.display = 'none';
+        analysisTextMail.style.display = 'none';
+        resultsContainerMail.style.display = 'none';
     });
 
     downloadButton.addEventListener('click', function() {
