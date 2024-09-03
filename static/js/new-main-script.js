@@ -130,6 +130,7 @@ document.addEventListener("DOMContentLoaded", function() {
         if (file.type.startsWith('audio/')) {
           updateUI(file.name);
           currentFileName = file.name;
+          audioFile = file;
         } else {
           alert('Please upload an audio file.');
         }
@@ -142,6 +143,7 @@ document.addEventListener("DOMContentLoaded", function() {
         if (file.name.endsWith('.eml')) {
           updateUIMail(file.name);
           currentFileName = file.name;
+          mailFile = file;
         } else {
           alert('Please upload a .eml file.');
         }
@@ -205,7 +207,7 @@ document.addEventListener("DOMContentLoaded", function() {
         rotateSVG();
 
         const formData = new FormData();
-        formData.append("file", fileInput.files[0]);
+        formData.append("file", audioFile);
 
         fetch('/start-analysis', {
             method: 'POST',
@@ -325,6 +327,13 @@ document.addEventListener("DOMContentLoaded", function() {
         console.error('Default button not found'); // Логирование ошибки, если кнопка не найдена
     }
 
+    const defaultButtonMail = document.getElementById('specifications-button-mail');
+    if (defaultButtonMail) {
+        defaultButtonMail.click();
+    } else {
+        console.error('Default button not found'); // Логирование ошибки, если кнопка не найдена
+    }
+
     const backButton = document.getElementById('back-button');
     const backButtonMail = document.getElementById('back-button-mail');
 
@@ -375,7 +384,7 @@ document.addEventListener("DOMContentLoaded", function() {
         rotateSVG();
 
         const formData = new FormData();
-        formData.append("file", inputElementMail.files[0]);
+        formData.append("file", mailFile);
 
         fetch('/mail-upload', {
             method: 'POST',
@@ -418,7 +427,8 @@ document.addEventListener("DOMContentLoaded", function() {
                         console.log('Запрос готов:', data);
                         document.getElementById('overlay').style.display = 'none';
                         document.getElementById('mail-file-name-result').innerHTML = currentFileName;
-
+                        document.getElementById('mail-analysis-start').style.display = 'none';
+                        document.getElementById('mail-analysis-results').style.display = 'block';
                         json_relevant_items_string = JSON.parse(data.relevant_items_string);
                         json_specifications_string = JSON.parse(data.specifications_string);
                         const formattedJson_relevant_items_string = JSON.stringify(json_relevant_items_string, null, 2);
