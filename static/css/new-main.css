@@ -1,0 +1,350 @@
+
+::-webkit-scrollbar {
+  width: 0;
+}
+
+
+html, body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden; /* Предотвратить прокрутку */
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    line-height: 24px;
+}
+
+.row-container {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin: 0 auto;
+}
+
+.menu-tab {
+    width: 192px;
+    height: 104px;
+    color: #FFFFFF80;
+    border-radius: 16px;
+    margin: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 16px;
+}
+
+#audio-icon, #email-icon {
+    fill: #FFFFFF80;
+}
+
+.menu-tab:hover {
+    color: white;
+    background: #FFFFFF10;
+    fill: white;
+}
+
+.menu-tab:hover #audio-icon,
+.menu-tab:hover #email-icon {
+    fill: white;
+}
+
+.menu-tab.active {
+    background: #FFFFFF1A;
+    border: 1px solid #FFFFFF1A;
+    color: white;
+}
+
+.menu-tab.active #audio-icon,
+.menu-tab.active #email-icon {
+    fill: white;
+}
+
+
+#service-type-buttons {
+    position: fixed;
+    height: 100%;
+    background-color: black;
+}
+
+#logo {
+    width: 172px;
+    height: 24px;
+    margin-top: 46px;
+    margin-left: 24px;
+    margin-bottom: 24px;
+}
+
+.analysis-content {
+    padding: 7.8em 24.4em;
+}
+
+
+
+.audio-analysis-title {
+    font-size: 48px;
+    font-weight: 500;
+    margin: 0px;
+    width: 586px;
+    line-height: 64px;
+}
+
+.audio-analysis-subtitle {
+    width: 464px;
+    color: #000000CC;
+}
+
+.drop-area {
+    margin-top: 32px;
+    border: 1px dashed #00000033;
+    border-radius: 16px;
+    padding: 32px;
+    transition: border-color 0.3s;
+    max-width: 584px;
+}
+
+.drop-area.highlight {
+    border-color: blue;
+}
+
+.file-label-button {
+    background: black;
+    color: white;
+    cursor: pointer;
+    border-radius: 12px;
+    display: flex;
+    padding: 8px;
+    padding-left: 16px;
+    padding-right: 16px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.file-label-button:hover {
+    background: rgba(0, 0, 0, 0.8);
+}
+
+.drag-title {
+    font-size: 16px;
+    color: black;
+    margin: 0px;
+    margin-bottom: 16px;
+    font-weight: 500;
+}
+
+.extra-info-about-file {
+   font-size: 14px;
+   font-weight: 500;
+   color: rgba(0, 0, 0, 0.5);
+}
+
+.remove-file {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+.checkbox-label {
+    margin-top: 24px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    width: 192px;
+    height: 164px;
+    border-radius: 16px;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-direction: column;
+    cursor: pointer; /* Курсор в виде указателя при наведении */
+    font-size:16px;
+    font-weight:400;
+}
+
+.checkbox-label:hover {
+    background: rgba(0, 0, 0, 0.03);
+}
+
+input[type="checkbox"] {
+    -webkit-appearance: none; /* Убрать стандартный стиль для WebKit/Blink браузеров */
+    -moz-appearance: none;    /* Убрать стандартный стиль для Firefox */
+    appearance: none;
+    border: 1px solid rgba(0, 0, 0, 0.4);
+    padding: 12px; /* Размер чекбокса */
+    position: relative; /* Для позиционирования псевдоэлемента */
+    border-radius: 4px;
+    width: 24px; /* Ширина чекбокса */
+    height: 24px; /* Высота чекбокса */
+    cursor: pointer;
+    outline: none; /* Убрать фокусную рамку */
+    display: inline-block; /* Для правильного позиционирования */
+    background-repeat: no-repeat; /* Не повторять изображение */
+    background-position: center; /* Центрировать изображение */
+}
+
+input[type="checkbox"]:checked {
+    background-color: black; /* Фон чекбокса при выборе */
+    border-color: black;
+    background-image: url('/static/images/check.svg');
+}
+
+.analysis-button {
+    font-size: 17px;
+    font-weight: 500;
+    color: white;
+    padding: 16px 32px 16px 32px;
+    border-radius: 100px;
+    background: linear-gradient(316.25deg, #00F0FF -86.7%, #B730F8 150.01%);
+    border: 0px;
+    cursor: pointer;
+    line-height: 24px;
+}
+
+/* Изменение фона при наведении, только если кнопка не disabled */
+.analysis-button:hover:not(:disabled) {
+    background: linear-gradient(316.25deg, rgba(0, 240, 255, 0.8) -86.7%, rgba(183, 48, 248, 0.8) 150.01%);
+}
+
+/* Стили для disabled состояния */
+.analysis-button:disabled {
+    cursor: not-allowed;
+    opacity: 0.5; /* Более низкая прозрачность для неактивного состояния */
+    background: linear-gradient(316.25deg, #00F0FF -86.7%, #B730F8 150.01%); /* Сохраняем исходный фон */
+}
+
+#overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.9);
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Убедитесь, что затемнение поверх всех элементов */
+}
+
+.waiting-text {
+    color: black;
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 32px;
+}
+
+#loading-svg {
+    transition: transform 0.3s ease-in-out; /* Плавная анимация вращения */
+}
+
+.results-buttons-calls {
+    padding: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 20px;
+    line-height: 32px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    background: white;
+    border-radius: 16px;
+    transition: background 0.3s;
+    transition: padding 0.3s;
+}
+
+.results-buttons-calls:hover {
+    background: rgba(0, 0, 0, 0.03);
+    padding: 20px 20px 20px 32px;
+}
+
+.results-buttons-calls.active {
+    background: rgba(0, 0, 0, 1);
+    padding: 20px 20px 20px 20px;
+    color: white;
+}
+
+.arrow-icon {
+    fill: black;
+}
+
+
+.results-buttons-calls.active .arrow-icon {
+    fill: white;
+}
+
+.results-container {
+/*
+    position: absolute;
+    left: 1094px;
+    top: 0px;
+    display:flex;
+    flex-direction: column;
+    width: 826px;
+    height: 900px;
+    box-shadow: -1px 0px 0px 0px rgba(0, 0, 0, 0.1);
+    background: white;
+    height: 100%;
+    padding: 118px 240px 48px 48px;
+    overflow: auto;
+    */
+}
+
+.results-title {
+    margin: 0px;
+    font-size: 48px;
+    line-height: 64px;
+    font-weight: 500;
+}
+
+.scroll-box {
+    max-width: 538px;
+    margin: 0px;
+    margin-top: 48px;
+    font-size: 16px;
+    line-height: 28px;
+}
+
+#calls-result-container {
+    position: absolute;
+    left: 1094px;
+    top: 0px;
+    display:flex;
+    flex-direction: column;
+    width: 826px;
+    box-shadow: -1px 0px 0px 0px rgba(0, 0, 0, 0.1);
+    background: white;
+    padding: 118px 240px 48px 48px;
+    overflow: auto;
+    box-sizing: border-box;
+}
+
+#mail-result-container {
+    position: absolute;
+    left: 1094px;
+    top: 0px;
+    display:flex;
+    flex-direction: column;
+    width: 826px;
+    box-shadow: -1px 0px 0px 0px rgba(0, 0, 0, 0.1);
+    background: white;
+    padding: 118px 240px 48px 48px;
+    overflow: auto;
+    box-sizing: border-box;
+}
+
+.home-btn {
+    padding: 16px 32px 16px 32px;
+    line-height: 24px;
+    font-size: 17px;
+    font-weight: 500;
+    border: 0px;
+    background: none;
+    cursor: pointer
+}

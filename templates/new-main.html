@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/new-main.css') }}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="icon" type="image/png" href="/static/images/favicon.png">
+    <title>TechmateDemo</title>
+</head>
+<body style="margin: 0px;">
+    <div id="main-content" class="row-container">
+        <div id="service-type-buttons" class="column-container">
+            <img src="/static/images/logo_fixed.svg" alt="logo" id="logo">
+            <div id="audio-analysis-button" class="menu-tab active">
+                <svg id="audio-icon" width="32" height="32" viewbox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M21.3333 4.66667C21.3333 4.29848 21.0349 4 20.6667 4C20.2985 4 20 4.29848 20 4.66667L20 27.3333C20 27.7015 20.2985 28 20.6667 28C21.0349 28 21.3333 27.7015 21.3333 27.3333L21.3333 4.66667ZM6.66667 7.33333C7.03486 7.33333 7.33333 7.63181 7.33333 8V23.3333C7.33333 23.7015 7.03486 24 6.66667 24C6.29848 24 6 23.7015 6 23.3333V8C6 7.63181 6.29848 7.33333 6.66667 7.33333ZM11.3333 11.3333C11.7015 11.3333 12 11.6318 12 12L12 20C12 20.3682 11.7015 20.6667 11.3333 20.6667C10.9651 20.6667 10.6667 20.3682 10.6667 20V12C10.6667 11.6318 10.9651 11.3333 11.3333 11.3333ZM26 10.6667C26 10.2985 25.7015 10 25.3333 10C24.9651 10 24.6667 10.2985 24.6667 10.6667V21.3333C24.6667 21.7015 24.9651 22 25.3333 22C25.7015 22 26 21.7015 26 21.3333L26 10.6667ZM16 8C16.3682 8 16.6667 8.29848 16.6667 8.66667V23.3333C16.6667 23.7015 16.3682 24 16 24C15.6318 24 15.3333 23.7015 15.3333 23.3333L15.3333 8.66667C15.3333 8.29848 15.6318 8 16 8Z" />
+                </svg>
+                <div>Audio Analysis</div>
+            </div>
+            <div id="mail-analysis-button" class="menu-tab">
+                <svg id="email-icon" width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M18.0608 5.11796L18.0426 5.09979C17.7941 4.85129 17.5797 4.6369 17.3887 4.47475C17.1871 4.30361 16.9681 4.15186 16.6989 4.06438C16.2972 3.93386 15.8645 3.93386 15.4628 4.06438C15.1936 4.15186 14.9746 4.30361 14.773 4.47475C14.582 4.6369 14.3676 4.85128 14.1191 5.09979L14.1191 5.0998L14.101 5.11796L12.6094 6.60947C12.5911 6.62777 12.5741 6.64686 12.5584 6.66665H10.1333L10.1076 6.66665H10.1076C9.75616 6.66664 9.45299 6.66663 9.20328 6.68703C8.93971 6.70856 8.67757 6.75611 8.42531 6.88463C8.04899 7.07638 7.74303 7.38234 7.55128 7.75867C7.42275 8.01092 7.37521 8.27307 7.35367 8.53663C7.33327 8.78634 7.33328 9.08951 7.33329 9.44094V9.44095L7.33329 9.46665V12.42L5.55493 14.4948C5.35075 14.6313 5.1714 14.8056 5.02771 15.0111C4.80677 15.327 4.73293 15.6968 4.69949 16.0622C4.6666 16.4215 4.66661 16.8756 4.66663 17.4198V17.4518V23.0666V23.0952V23.0952C4.66662 23.8177 4.66662 24.4005 4.70517 24.8724C4.74487 25.3583 4.82875 25.7851 5.02994 26.1799C5.34952 26.8072 5.85945 27.3171 6.48666 27.6367C6.88152 27.8379 7.30831 27.9217 7.79421 27.9614C8.26611 28 8.84886 28 9.57135 28H9.57141H9.59996H22.4H22.4285H22.4286C23.1511 28 23.7338 28 24.2057 27.9614C24.6916 27.9217 25.1184 27.8379 25.5133 27.6367C26.1405 27.3171 26.6504 26.8072 26.97 26.1799C27.1712 25.7851 27.2551 25.3583 27.2948 24.8724C27.3333 24.4005 27.3333 23.8177 27.3333 23.0952V23.0667V17.4518V17.4198C27.3333 16.8755 27.3333 16.4215 27.3004 16.0622C27.267 15.6968 27.1932 15.327 26.9722 15.0111C26.8285 14.8056 26.6492 14.6313 26.445 14.4948L24.6666 12.42V9.46665V9.44103V9.44094C24.6666 9.08952 24.6666 8.78634 24.6462 8.53663C24.6247 8.27307 24.5772 8.01092 24.4486 7.75867C24.2569 7.38234 23.9509 7.07638 23.5746 6.88463C23.3224 6.75611 23.0602 6.70856 22.7966 6.68703C22.5469 6.66662 22.2438 6.66664 21.8923 6.66665L21.8666 6.66665H19.5775C19.549 6.61729 19.5136 6.57081 19.4714 6.52858L18.0608 5.11796ZM17.7238 6.66665L17.1179 6.06077C16.8462 5.78898 16.6703 5.61386 16.5258 5.4912C16.3873 5.3736 16.322 5.34389 16.2869 5.33245C16.153 5.28895 16.0087 5.28895 15.8748 5.33245C15.8397 5.34389 15.7744 5.3736 15.6359 5.4912C15.4914 5.61386 15.3156 5.78898 15.0438 6.06077L14.4379 6.66665H17.7238ZM23.3333 9.46665V12.6625V12.6715V14.9213L23.3097 14.9331L23.2811 14.9474L17.6099 17.783C16.8757 18.1501 16.6224 18.27 16.3688 18.3176C16.125 18.3633 15.8749 18.3633 15.6312 18.3176C15.3775 18.27 15.1242 18.1501 14.39 17.783L8.71883 14.9474L8.69026 14.9331L8.66663 14.9213V12.671V12.6629V9.46665C8.66663 9.08228 8.66715 8.8341 8.68258 8.64521C8.69738 8.4641 8.72249 8.39695 8.73929 8.36399C8.80321 8.23855 8.90519 8.13656 9.03063 8.07264C9.0636 8.05585 9.13074 8.03073 9.31185 8.01593C9.50074 8.0005 9.74892 7.99998 10.1333 7.99998H21.8666C22.251 7.99998 22.4992 8.0005 22.6881 8.01593C22.8692 8.03073 22.9363 8.05585 22.9693 8.07264C23.0947 8.13656 23.1967 8.23855 23.2606 8.36399C23.2774 8.39695 23.3025 8.4641 23.3173 8.64521C23.3328 8.8341 23.3333 9.08228 23.3333 9.46665ZM6.97611 15.5973C6.70286 15.4906 6.60333 15.4928 6.56919 15.4979C6.38778 15.5247 6.22542 15.625 6.12032 15.7753C6.10054 15.8035 6.05401 15.8916 6.02728 16.1837C6.00062 16.4749 5.99996 16.8673 5.99996 17.4518V23.0666C5.99996 23.8244 6.00048 24.3526 6.03408 24.7638C6.06704 25.1673 6.12849 25.3991 6.21795 25.5746C6.40969 25.951 6.71566 26.2569 7.09198 26.4487C7.26755 26.5381 7.49934 26.5996 7.90279 26.6325C8.31402 26.6661 8.84223 26.6666 9.59996 26.6666H22.4C23.1577 26.6666 23.6859 26.6661 24.0971 26.6325C24.5006 26.5996 24.7324 26.5381 24.9079 26.4487C25.2843 26.2569 25.5902 25.951 25.782 25.5746C25.8714 25.3991 25.9329 25.1673 25.9658 24.7638C25.9994 24.3526 26 23.8244 26 23.0667V17.4518C26 16.8673 25.9993 16.4749 25.9726 16.1837C25.9459 15.8916 25.8994 15.8035 25.8796 15.7753C25.7745 15.625 25.6121 15.5247 25.4307 15.4979C25.3966 15.4928 25.2971 15.4906 25.0238 15.5973C24.7514 15.7037 24.4002 15.8786 23.8774 16.14L18.2062 18.9755L18.1241 19.0166C17.5038 19.327 17.0748 19.5417 16.6146 19.6281C16.2084 19.7043 15.7915 19.7043 15.3853 19.6281C14.9251 19.5417 14.4961 19.327 13.8759 19.0166L13.7937 18.9755L8.12254 16.14C7.59976 15.8786 7.24848 15.7037 6.97611 15.5973ZM11.3333 9.99998C10.9651 9.99998 10.6666 10.2985 10.6666 10.6666C10.6666 11.0348 10.9651 11.3333 11.3333 11.3333H17.3333C17.7015 11.3333 18 11.0348 18 10.6666C18 10.2985 17.7015 9.99998 17.3333 9.99998H11.3333ZM10.6666 13.3333C10.6666 12.9651 10.9651 12.6666 11.3333 12.6666H15.3333C15.7015 12.6666 16 12.9651 16 13.3333C16 13.7015 15.7015 14 15.3333 14H11.3333C10.9651 14 10.6666 13.7015 10.6666 13.3333Z" />
+                </svg>
+                <div>E-Mail Analysis</div>
+            </div>
+        </div>
+        <div id="audio-analysis-content" class="analysis-content" style="">
+            <div id="audio-analysis-start" style="">
+                <h1 class="audio-analysis-title">Here will be some title about Audio Analysis</h1>
+                <p class="audio-analysis-subtitle">Here will be some text about how our service works. What can it do and what opportunities it can give to the user.</p>
+                <div id="drop-area-audio" class="drop-area">
+                    <form id="audio-upload-form" class="audio-upload-form">
+                        <div id="drop-row-container" class="row-container">
+                            <div id="drop-down-info-audio" class="column-container">
+                                <h3 class="drag-title">Drag and drop your audio file here</h3>
+                                <div class="extra-info-about-file">MP3, WAV, FLAC, AIFF, AU, WMA, ALAC files supported<br>Max file size: 5 MB</div>
+                            </div>
+                            <div class="audio-file-details" style="display: none;">
+                                <div class="row-container" style="gap:8px;align-items: center;">
+                                    <svg width="32" height="32" viewbox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M21.3333 4.66667C21.3333 4.29848 21.0349 4 20.6667 4C20.2985 4 20 4.29848 20 4.66667L20 27.3333C20 27.7015 20.2985 28 20.6667 28C21.0349 28 21.3333 27.7015 21.3333 27.3333L21.3333 4.66667ZM6.66667 7.33333C7.03486 7.33333 7.33333 7.63181 7.33333 8V23.3333C7.33333 23.7015 7.03486 24 6.66667 24C6.29848 24 6 23.7015 6 23.3333V8C6 7.63181 6.29848 7.33333 6.66667 7.33333ZM11.3333 11.3333C11.7015 11.3333 12 11.6318 12 12L12 20C12 20.3682 11.7015 20.6667 11.3333 20.6667C10.9651 20.6667 10.6667 20.3682 10.6667 20V12C10.6667 11.6318 10.9651 11.3333 11.3333 11.3333ZM26 10.6667C26 10.2985 25.7015 10 25.3333 10C24.9651 10 24.6667 10.2985 24.6667 10.6667V21.3333C24.6667 21.7015 24.9651 22 25.3333 22C25.7015 22 26 21.7015 26 21.3333L26 10.6667ZM16 8C16.3682 8 16.6667 8.29848 16.6667 8.66667V23.3333C16.6667 23.7015 16.3682 24 16 24C15.6318 24 15.3333 23.7015 15.3333 23.3333L15.3333 8.66667C15.3333 8.29848 15.6318 8 16 8Z" fill="black"/>
+                                    </svg>
+                                    <div id="audio-file-name" style="max-width:300px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;"></div>
+                                    <button class="remove-file">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
+                                            <rect width="32" height="32" rx="4" fill="black" fill-opacity="0.05"/>
+                                            <path d="M20 12.0001L12 20.0001" stroke="black" stroke-width="1.33333" stroke-linecap="round"/>
+                                            <path d="M20 20.0001L12 12" stroke="black" stroke-width="1.33333" stroke-linecap="round"/>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                            <input type="file" id="audiofile" accept="audio/*" style="display: none;">
+                            <label for="audiofile" class="file-label-button">Browse files</label>
+                        </div>
+                    </form>
+                </div>
+                <h1 id="visualization-options-text" style="margin:0px;margin-top:48px;font-size:20px;font-weight:500;display: none;">Visualization options</h1>
+                <div id="visualization-options" class="row-container" style="gap: 24px;display: none;">
+                    <label class="checkbox-label"><input type="checkbox" name="options" value="dialogTranscribed">Transcribe dialogue</label>
+                    <label class="checkbox-label"><input type="checkbox" name="options" value="textAnalysis">Text analysis</label>
+                    <label class="checkbox-label"><input type="checkbox" name="options" value="generalRanking">Overall assessment and conclusion</label>
+                    <label class="checkbox-label"><input type="checkbox" name="options" value="agreements">Agreements from the conversation</label>
+                    <label class="checkbox-label"><input type="checkbox" name="options" value="score">Rating on a 10-point scale</label>
+                </div>
+                <button id="analyze-calls-button" class="analysis-button" style="margin-top:48px;display: none;" disabled >Start analysis</button>
+            </div>
+            <div id="audio-analysis-results" class="column-container" style="display:none;">
+                <h1 class="audio-analysis-title">Your audio analysis results</h1>
+                <div class="row-container" style="align-items: center;justify-content: flex-start;margin-top:8px;">
+                    <svg width="32" height="32" viewbox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M21.3333 4.66667C21.3333 4.29848 21.0349 4 20.6667 4C20.2985 4 20 4.29848 20 4.66667L20 27.3333C20 27.7015 20.2985 28 20.6667 28C21.0349 28 21.3333 27.7015 21.3333 27.3333L21.3333 4.66667ZM6.66667 7.33333C7.03486 7.33333 7.33333 7.63181 7.33333 8V23.3333C7.33333 23.7015 7.03486 24 6.66667 24C6.29848 24 6 23.7015 6 23.3333V8C6 7.63181 6.29848 7.33333 6.66667 7.33333ZM11.3333 11.3333C11.7015 11.3333 12 11.6318 12 12L12 20C12 20.3682 11.7015 20.6667 11.3333 20.6667C10.9651 20.6667 10.6667 20.3682 10.6667 20V12C10.6667 11.6318 10.9651 11.3333 11.3333 11.3333ZM26 10.6667C26 10.2985 25.7015 10 25.3333 10C24.9651 10 24.6667 10.2985 24.6667 10.6667V21.3333C24.6667 21.7015 24.9651 22 25.3333 22C25.7015 22 26 21.7015 26 21.3333L26 10.6667ZM16 8C16.3682 8 16.6667 8.29848 16.6667 8.66667V23.3333C16.6667 23.7015 16.3682 24 16 24C15.6318 24 15.3333 23.7015 15.3333 23.3333L15.3333 8.66667C15.3333 8.29848 15.6318 8 16 8Z" fill="black"/>
+                    </svg>
+                    <div id="audio-file-name-result" style="max-width:300px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;"></div>
+                </div>
+                <div id="calls-result-options" class="left-buttons-container" style="margin-top:48px;display:flex;flex-direction:column;gap:32px;">
+                <button id="transcription-result-calls" class="results-buttons-calls" data-target="dialogTranscribed">Transcription
+                    <svg class="arrow-icon" width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M17.8856 7.04335C17.6253 6.783 17.2032 6.783 16.9428 7.04335C16.6825 7.3037 16.6825 7.72581 16.9428 7.98615L24.29 15.3334H6.1005C5.73231 15.3334 5.43384 15.6318 5.43384 16C5.43384 16.3682 5.73231 16.6667 6.1005 16.6667H24.29L16.9428 24.0139C16.6825 24.2743 16.6825 24.6964 16.9428 24.9567C17.2032 25.2171 17.6253 25.2171 17.8856 24.9567L26.3709 16.4714L26.8423 16L26.3709 15.5286L17.8856 7.04335Z" />
+                    </svg>
+                </button>
+                <button id="text-analysis-calls" class="results-buttons-calls" data-target="textAnalysis">Text analysis
+                    <svg class="arrow-icon" width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M17.8856 7.04335C17.6253 6.783 17.2032 6.783 16.9428 7.04335C16.6825 7.3037 16.6825 7.72581 16.9428 7.98615L24.29 15.3334H6.1005C5.73231 15.3334 5.43384 15.6318 5.43384 16C5.43384 16.3682 5.73231 16.6667 6.1005 16.6667H24.29L16.9428 24.0139C16.6825 24.2743 16.6825 24.6964 16.9428 24.9567C17.2032 25.2171 17.6253 25.2171 17.8856 24.9567L26.3709 16.4714L26.8423 16L26.3709 15.5286L17.8856 7.04335Z" />
+                    </svg>
+                </button>
+                <button id="general-dialog-ranking-calls" class="results-buttons-calls active" data-target="generalRanking">Conclusion
+                    <svg class="arrow-icon" width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M17.8856 7.04335C17.6253 6.783 17.2032 6.783 16.9428 7.04335C16.6825 7.3037 16.6825 7.72581 16.9428 7.98615L24.29 15.3334H6.1005C5.73231 15.3334 5.43384 15.6318 5.43384 16C5.43384 16.3682 5.73231 16.6667 6.1005 16.6667H24.29L16.9428 24.0139C16.6825 24.2743 16.6825 24.6964 16.9428 24.9567C17.2032 25.2171 17.6253 25.2171 17.8856 24.9567L26.3709 16.4714L26.8423 16L26.3709 15.5286L17.8856 7.04335Z" />
+                    </svg>
+                </button>
+                <button id="agreements-calls" class="results-buttons-calls" data-target="agreements">Agreements
+                    <svg class="arrow-icon" width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M17.8856 7.04335C17.6253 6.783 17.2032 6.783 16.9428 7.04335C16.6825 7.3037 16.6825 7.72581 16.9428 7.98615L24.29 15.3334H6.1005C5.73231 15.3334 5.43384 15.6318 5.43384 16C5.43384 16.3682 5.73231 16.6667 6.1005 16.6667H24.29L16.9428 24.0139C16.6825 24.2743 16.6825 24.6964 16.9428 24.9567C17.2032 25.2171 17.6253 25.2171 17.8856 24.9567L26.3709 16.4714L26.8423 16L26.3709 15.5286L17.8856 7.04335Z" />
+                    </svg>
+                </button>
+                <button id="final-score-calls" class="results-buttons-calls" data-target="score">Final Score
+                    <svg class="arrow-icon" width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M17.8856 7.04335C17.6253 6.783 17.2032 6.783 16.9428 7.04335C16.6825 7.3037 16.6825 7.72581 16.9428 7.98615L24.29 15.3334H6.1005C5.73231 15.3334 5.43384 15.6318 5.43384 16C5.43384 16.3682 5.73231 16.6667 6.1005 16.6667H24.29L16.9428 24.0139C16.6825 24.2743 16.6825 24.6964 16.9428 24.9567C17.2032 25.2171 17.6253 25.2171 17.8856 24.9567L26.3709 16.4714L26.8423 16L26.3709 15.5286L17.8856 7.04335Z" />
+                    </svg>
+                </button>
+                <div class="row-container" style="margin: 0px;justify-content:flex-start;gap:8px;">
+                    <button id="download-excel" class="analysis-button">Download result</button>
+                    <button id="back-button" class="home-btn">Start over</button>
+                </div>
+            </div>
+                <div id="calls-result-container" class="results-container" style="">
+                    <div class="result-box" id="dialogTranscribed">
+                        <h4 class="results-title">Transcribed dialogue</h4>
+                        <div class="scroll-box" >[dialogtranscribed]</div>
+                    </div>
+                    <div class="result-box" id="textAnalysis" >
+                        <h4 class="results-title">Text analysis</h4>
+                        <div class="scroll-box">[textanalysed]</div>
+                    </div>
+                    <div class="result-box" id="generalRanking" >
+                        <h4 class="results-title">General dialog ranking (conclusion and opinion)</h4>
+                        <div class="scroll-box">[generalranking]</div>
+                    </div>
+                    <div class="result-box" id="agreements" >
+                        <h4 class="results-title">Agreements</h4>
+                        <div class="scroll-box">[agreements]</div>
+                    </div>
+                    <div class="result-box" id="score">
+                        <h4 class="results-title">Final Score</h4>
+                        <div class="scroll-box">[score]</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="mail-analysis-content" class="analysis-content" style="Display: none;">
+            <div id="mail-analysis-start" style="">
+                <h1 class="audio-analysis-title">Here will be some title about Email Analysis</h1>
+                <p class="audio-analysis-subtitle">Here will be some text about how our service works. What can it do and what opportunities it can give to the user.</p>
+                <div id="drop-area-mail" class="drop-area">
+                    <form id="mail-upload-form" class="audio-upload-form">
+                        <div id="drop-row-container-mail" class="row-container">
+                            <div id="drop-down-info-mail" class="column-container">
+                                <h3 class="drag-title">Drag and drop your email file here</h3>
+                                <div class="extra-info-about-file">Only .eml files supported<br>Max file size: 5 MB</div>
+                            </div>
+                            <div id="mail-file-details" class="audio-file-details" style="display: none;">
+                                <div class="row-container" style="gap:8px;align-items: center;">
+                                    <svg width="32" height="32" viewbox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M21.3333 4.66667C21.3333 4.29848 21.0349 4 20.6667 4C20.2985 4 20 4.29848 20 4.66667L20 27.3333C20 27.7015 20.2985 28 20.6667 28C21.0349 28 21.3333 27.7015 21.3333 27.3333L21.3333 4.66667ZM6.66667 7.33333C7.03486 7.33333 7.33333 7.63181 7.33333 8V23.3333C7.33333 23.7015 7.03486 24 6.66667 24C6.29848 24 6 23.7015 6 23.3333V8C6 7.63181 6.29848 7.33333 6.66667 7.33333ZM11.3333 11.3333C11.7015 11.3333 12 11.6318 12 12L12 20C12 20.3682 11.7015 20.6667 11.3333 20.6667C10.9651 20.6667 10.6667 20.3682 10.6667 20V12C10.6667 11.6318 10.9651 11.3333 11.3333 11.3333ZM26 10.6667C26 10.2985 25.7015 10 25.3333 10C24.9651 10 24.6667 10.2985 24.6667 10.6667V21.3333C24.6667 21.7015 24.9651 22 25.3333 22C25.7015 22 26 21.7015 26 21.3333L26 10.6667ZM16 8C16.3682 8 16.6667 8.29848 16.6667 8.66667V23.3333C16.6667 23.7015 16.3682 24 16 24C15.6318 24 15.3333 23.7015 15.3333 23.3333L15.3333 8.66667C15.3333 8.29848 15.6318 8 16 8Z" fill="black"/>
+                                    </svg>
+                                    <div id="mail-file-name" style="max-width:300px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;"></div>
+                                    <button class="remove-file">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
+                                            <rect width="32" height="32" rx="4" fill="black" fill-opacity="0.05"/>
+                                            <path d="M20 12.0001L12 20.0001" stroke="black" stroke-width="1.33333" stroke-linecap="round"/>
+                                            <path d="M20 20.0001L12 12" stroke="black" stroke-width="1.33333" stroke-linecap="round"/>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                            <input type="file" id="mailfile" accept=".eml" style="display: none;">
+                            <label for="mailfile" class="file-label-button">Browse files</label>
+                        </div>
+                    </form>
+                </div>
+                <button id="analyze-mail-button" class="analysis-button" style="margin-top:48px;display: none;" >Start analysis</button>
+            </div>
+            <div id="mail-analysis-results" class="column-container" style="display:none;">
+                <h1 class="audio-analysis-title">Your mail analysis results</h1>
+                <div class="row-container" style="align-items: center;justify-content: flex-start;margin-top:8px;">
+                    <svg width="32" height="32" viewbox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M21.3333 4.66667C21.3333 4.29848 21.0349 4 20.6667 4C20.2985 4 20 4.29848 20 4.66667L20 27.3333C20 27.7015 20.2985 28 20.6667 28C21.0349 28 21.3333 27.7015 21.3333 27.3333L21.3333 4.66667ZM6.66667 7.33333C7.03486 7.33333 7.33333 7.63181 7.33333 8V23.3333C7.33333 23.7015 7.03486 24 6.66667 24C6.29848 24 6 23.7015 6 23.3333V8C6 7.63181 6.29848 7.33333 6.66667 7.33333ZM11.3333 11.3333C11.7015 11.3333 12 11.6318 12 12L12 20C12 20.3682 11.7015 20.6667 11.3333 20.6667C10.9651 20.6667 10.6667 20.3682 10.6667 20V12C10.6667 11.6318 10.9651 11.3333 11.3333 11.3333ZM26 10.6667C26 10.2985 25.7015 10 25.3333 10C24.9651 10 24.6667 10.2985 24.6667 10.6667V21.3333C24.6667 21.7015 24.9651 22 25.3333 22C25.7015 22 26 21.7015 26 21.3333L26 10.6667ZM16 8C16.3682 8 16.6667 8.29848 16.6667 8.66667V23.3333C16.6667 23.7015 16.3682 24 16 24C15.6318 24 15.3333 23.7015 15.3333 23.3333L15.3333 8.66667C15.3333 8.29848 15.6318 8 16 8Z" fill="black"/>
+                    </svg>
+                    <div id="mail-file-name-result" style="max-width:300px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;"></div>
+                </div>
+                <div id="mail-result-options" class="left-buttons-container" style="margin-top:48px;display:flex;flex-direction:column;gap:32px;">
+                <button id="specifications-button-mail" class="results-buttons-calls" data-target="specifications-mail">Specifications
+                    <svg class="arrow-icon" width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M17.8856 7.04335C17.6253 6.783 17.2032 6.783 16.9428 7.04335C16.6825 7.3037 16.6825 7.72581 16.9428 7.98615L24.29 15.3334H6.1005C5.73231 15.3334 5.43384 15.6318 5.43384 16C5.43384 16.3682 5.73231 16.6667 6.1005 16.6667H24.29L16.9428 24.0139C16.6825 24.2743 16.6825 24.6964 16.9428 24.9567C17.2032 25.2171 17.6253 25.2171 17.8856 24.9567L26.3709 16.4714L26.8423 16L26.3709 15.5286L17.8856 7.04335Z" />
+                    </svg>
+                </button>
+                <button id="relevant-items-button-mail" class="results-buttons-calls" data-target="relevant-items-mail">Relevant Items
+                    <svg class="arrow-icon" width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M17.8856 7.04335C17.6253 6.783 17.2032 6.783 16.9428 7.04335C16.6825 7.3037 16.6825 7.72581 16.9428 7.98615L24.29 15.3334H6.1005C5.73231 15.3334 5.43384 15.6318 5.43384 16C5.43384 16.3682 5.73231 16.6667 6.1005 16.6667H24.29L16.9428 24.0139C16.6825 24.2743 16.6825 24.6964 16.9428 24.9567C17.2032 25.2171 17.6253 25.2171 17.8856 24.9567L26.3709 16.4714L26.8423 16L26.3709 15.5286L17.8856 7.04335Z" />
+                    </svg>
+                </button>
+                <div class="row-container" style="margin: 0px;justify-content:flex-start;gap:8px;">
+                    <button id="back-button-mail" class="home-btn">Start over</button>
+                </div>
+            </div>
+                <div id="mail-result-container" class="results-container" style="">
+                    <div class="result-box" id="specifications-mail">
+                        <h4 class="results-title">Specifications</h4>
+                        <div class="scroll-box" >[specifications]</div>
+                    </div>
+                    <div class="result-box" id="relevant-items-mail" >
+                        <h4 class="results-title">Relevant Items</h4>
+                        <div class="scroll-box">[relevant_Items]</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="overlay" class="column-container" style="display: none;">
+            <svg id="loading-svg" width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M26.5841 1.30905e-05C21.8079 -0.000254607 17.6927 -0.00048525 14.3972 0.442579C10.8655 0.917412 7.48007 1.9882 4.73414 4.73414C1.9882 7.48007 0.917412 10.8655 0.442579 14.3972C-0.00048525 17.6927 -0.000254607 21.8079 1.30905e-05 26.5841L2.64507e-05 37.7143H10.2857L10.2857 48L21.4159 48C26.192 48.0003 30.3073 48.0005 33.6028 47.5574C37.1345 47.0826 40.5199 46.0118 43.2659 43.2659C46.0118 40.5199 47.0826 37.1345 47.5574 33.6028C48.0005 30.3073 48.0003 26.1921 48 21.416L48 10.2857H37.7143V21.551C37.7143 26.783 37.7028 30.1649 37.3678 32.6568C37.0536 34.9937 36.5464 35.7261 36.1362 36.1363C35.7261 36.5464 34.9937 37.0536 32.6568 37.3678C30.1649 37.7028 26.783 37.7143 21.551 37.7143H10.2857V26.449C10.2857 21.217 10.2972 17.8351 10.6322 15.3432C10.9464 13.0063 11.4536 12.2739 11.8638 11.8638C12.2739 11.4536 13.0063 10.9464 15.3432 10.6322C17.8351 10.2972 21.217 10.2857 26.449 10.2857L37.7143 10.2857V2.64497e-05L26.5841 1.30905e-05Z" fill="url(#paint0_linear_402_628)"/>
+                <defs>
+                    <linearGradient id="paint0_linear_402_628" x1="3.54209" y1="48.3177" x2="49.7255" y2="1.31659" gradientUnits="userSpaceOnUse">
+                        <stop stop-color="#00F0FF"/>
+                        <stop offset="1" stop-color="#B730F8"/>
+                    </linearGradient>
+                </defs>
+            </svg>
+            <div id="waiting-text" class="waiting-text">Analysing using our pipeline. Might take from 2 to 5 minutes...</div>
+    </div>
+    <script src="/static/js/new-main-script.js"></script>
+</body>
+</html>

@@ -9,8 +9,8 @@ def index():
     if request.method == 'POST':
         f = request.files['file']
         filename = f.filename
-        return render_template('index.html', filename=filename)
-    return render_template('index.html', filename=None)
+        return render_template('new-main.html', filename=filename)
+    return render_template('new-main.html', filename=None)
 
 
 @app.route('/mail-upload', methods=['POST'])
