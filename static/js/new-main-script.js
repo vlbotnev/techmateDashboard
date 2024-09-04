@@ -395,7 +395,7 @@ document.addEventListener("DOMContentLoaded", function() {
             // Создание второго запроса с использованием имени файла, полученного из первого API
             const request = {
                 name: "some request",
-                path: "/home/ds/projects/vbotnev/inferit_vbotnevCopy-08-20/eml_processor/"+data.filename, // Имя файла из первого ответа
+                path: "data/"+data.filename, // Имя файла из первого ответа
                 date: "2024/08/25"
             };
 
