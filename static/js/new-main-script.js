@@ -49,6 +49,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
     document.querySelectorAll('.menu-tab').forEach(tab => {
         tab.addEventListener('click', function() {
+            if (this.classList.contains('disabled')) return;
+
             // Убираем активный класс у всех кнопок
             document.querySelectorAll('.menu-tab').forEach(t => t.classList.remove('active'));
 
