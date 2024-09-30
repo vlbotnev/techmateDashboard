@@ -231,6 +231,7 @@ input[type="checkbox"]:checked {
     justify-content: center;
     align-items: center;
     z-index: 1000; /* Убедитесь, что затемнение поверх всех элементов */
+    backdrop-filter: blur(20px); /* Добавляем размытие фона */
 }
 
 .waiting-text {
@@ -238,6 +239,8 @@ input[type="checkbox"]:checked {
     font-size: 24px;
     font-weight: 400;
     line-height: 32px;
+    margin-top: 8px;
+    margin-bottom: 32px;
 }
 
 #loading-svg {
@@ -347,4 +350,37 @@ input[type="checkbox"]:checked {
     border: 0px;
     background: none;
     cursor: pointer
+}
+
+.progress-container {
+    width: 520px;
+    height: 16px;
+    background-color: #e0e0e0; /* Цвет фона для контейнера */
+    border-radius: 100px;
+    overflow: hidden; /* Чтобы прогресс не выходил за границы */
+    position: relative;
+}
+
+#progress-bar {
+    width: 0;
+    height: 100%;
+    background: linear-gradient(296.22deg, #00F0FF 16.5%, #B730F8 84.26%);
+    border-bottom-left-radius: 100px;
+    border-top-left-radius: 100px;
+    transition: width 0.5s ease; /* Плавный переход */
+    background-size: 200% 200%;
+    animation: gradientAnimation 4s ease infinite; /* Анимация перелива */
+}
+
+
+@keyframes gradientAnimation {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
 }
