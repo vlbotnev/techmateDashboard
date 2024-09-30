@@ -13,7 +13,7 @@
 <body style="margin: 0px;">
     <div id="main-content" class="row-container">
         <div id="service-type-buttons" class="column-container">
-            <img src="/static/images/logo_fixed.svg" alt="logo" id="logo">
+            <img src="/static/images/logo_fixed.svg" alt="logo" id="logo" style="display: none">
             <div id="audio-analysis-button" class="menu-tab active">
                 <svg id="audio-icon" width="32" height="32" viewbox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path fill-rule="evenodd" clip-rule="evenodd" d="M21.3333 4.66667C21.3333 4.29848 21.0349 4 20.6667 4C20.2985 4 20 4.29848 20 4.66667L20 27.3333C20 27.7015 20.2985 28 20.6667 28C21.0349 28 21.3333 27.7015 21.3333 27.3333L21.3333 4.66667ZM6.66667 7.33333C7.03486 7.33333 7.33333 7.63181 7.33333 8V23.3333C7.33333 23.7015 7.03486 24 6.66667 24C6.29848 24 6 23.7015 6 23.3333V8C6 7.63181 6.29848 7.33333 6.66667 7.33333ZM11.3333 11.3333C11.7015 11.3333 12 11.6318 12 12L12 20C12 20.3682 11.7015 20.6667 11.3333 20.6667C10.9651 20.6667 10.6667 20.3682 10.6667 20V12C10.6667 11.6318 10.9651 11.3333 11.3333 11.3333ZM26 10.6667C26 10.2985 25.7015 10 25.3333 10C24.9651 10 24.6667 10.2985 24.6667 10.6667V21.3333C24.6667 21.7015 24.9651 22 25.3333 22C25.7015 22 26 21.7015 26 21.3333L26 10.6667ZM16 8C16.3682 8 16.6667 8.29848 16.6667 8.66667V23.3333C16.6667 23.7015 16.3682 24 16 24C15.6318 24 15.3333 23.7015 15.3333 23.3333L15.3333 8.66667C15.3333 8.29848 15.6318 8 16 8Z" />
@@ -36,7 +36,7 @@
                         <div id="drop-row-container" class="row-container">
                             <div id="drop-down-info-audio" class="column-container">
                                 <h3 class="drag-title">Drag and drop your audio file here</h3>
-                                <div class="extra-info-about-file">MP3, WAV, FLAC, AIFF, AU, WMA, ALAC files supported<br>Max file size: 5 MB</div>
+                                <div class="extra-info-about-file">MP3, WAV, FLAC, AIFF, AU, WMA, ALAC files supported<br>Max file size: 3 MB. Max file length: 4 MIN</div>
                             </div>
                             <div class="audio-file-details" style="display: none;">
                                 <div class="row-container" style="gap:8px;align-items: center;">
@@ -65,6 +65,7 @@
                     <label class="checkbox-label"><input type="checkbox" name="options" value="generalRanking">Overall assessment and conclusion</label>
                     <label class="checkbox-label"><input type="checkbox" name="options" value="agreements">Agreements from the conversation</label>
                     <label class="checkbox-label"><input type="checkbox" name="options" value="score">Rating on a 10-point scale</label>
+                    <label class="checkbox-label"><input type="checkbox" name="options" value="grade_details">Score details</label>
                 </div>
                 <button id="analyze-calls-button" class="analysis-button" style="margin-top:48px;display: none;" disabled >Start analysis</button>
             </div>
@@ -102,6 +103,11 @@
                         <path fill-rule="evenodd" clip-rule="evenodd" d="M17.8856 7.04335C17.6253 6.783 17.2032 6.783 16.9428 7.04335C16.6825 7.3037 16.6825 7.72581 16.9428 7.98615L24.29 15.3334H6.1005C5.73231 15.3334 5.43384 15.6318 5.43384 16C5.43384 16.3682 5.73231 16.6667 6.1005 16.6667H24.29L16.9428 24.0139C16.6825 24.2743 16.6825 24.6964 16.9428 24.9567C17.2032 25.2171 17.6253 25.2171 17.8856 24.9567L26.3709 16.4714L26.8423 16L26.3709 15.5286L17.8856 7.04335Z" />
                     </svg>
                 </button>
+                <button id="score-details-calls" class="results-buttons-calls" data-target="grade_details">Score Details
+                    <svg class="arrow-icon" width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M17.8856 7.04335C17.6253 6.783 17.2032 6.783 16.9428 7.04335C16.6825 7.3037 16.6825 7.72581 16.9428 7.98615L24.29 15.3334H6.1005C5.73231 15.3334 5.43384 15.6318 5.43384 16C5.43384 16.3682 5.73231 16.6667 6.1005 16.6667H24.29L16.9428 24.0139C16.6825 24.2743 16.6825 24.6964 16.9428 24.9567C17.2032 25.2171 17.6253 25.2171 17.8856 24.9567L26.3709 16.4714L26.8423 16L26.3709 15.5286L17.8856 7.04335Z" />
+                    </svg>
+                </button>
                 <div class="row-container" style="margin: 0px;justify-content:flex-start;gap:8px;">
                     <button id="download-excel" class="analysis-button">Download result</button>
                     <button id="back-button" class="home-btn">Start over</button>
@@ -127,6 +133,10 @@
                     <div class="result-box" id="score">
                         <h4 class="results-title">Final Score</h4>
                         <div class="scroll-box">[score]</div>
+                    </div>
+                    <div class="result-box" id="grade_details">
+                        <h4 class="results-title">Score details</h4>
+                        <div class="scroll-box">[grade_details]</div>
                     </div>
                 </div>
             </div>
@@ -201,6 +211,14 @@
         </div>
     </div>
     <div id="overlay" class="column-container" style="display: none;">
+        <div id="audio-progress-bar" class="column-container" style="display: none; flex-direction: column; align-items: flex-start">
+            <div id="step-number" style="line-height: 24px;font-weight: 700;font-size: 16px;">STEP 0</div>
+            <div id="waiting-text" class="waiting-text">Pending</div>
+            <div class="progress-container">
+                <div id="progress-bar"></div>
+            </div>
+        </div>
+        <div id='mail-analyzer-overlay' style="display: none;flex-direction: column;align-items: center">
             <svg id="loading-svg" width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M26.5841 1.30905e-05C21.8079 -0.000254607 17.6927 -0.00048525 14.3972 0.442579C10.8655 0.917412 7.48007 1.9882 4.73414 4.73414C1.9882 7.48007 0.917412 10.8655 0.442579 14.3972C-0.00048525 17.6927 -0.000254607 21.8079 1.30905e-05 26.5841L2.64507e-05 37.7143H10.2857L10.2857 48L21.4159 48C26.192 48.0003 30.3073 48.0005 33.6028 47.5574C37.1345 47.0826 40.5199 46.0118 43.2659 43.2659C46.0118 40.5199 47.0826 37.1345 47.5574 33.6028C48.0005 30.3073 48.0003 26.1921 48 21.416L48 10.2857H37.7143V21.551C37.7143 26.783 37.7028 30.1649 37.3678 32.6568C37.0536 34.9937 36.5464 35.7261 36.1362 36.1363C35.7261 36.5464 34.9937 37.0536 32.6568 37.3678C30.1649 37.7028 26.783 37.7143 21.551 37.7143H10.2857V26.449C10.2857 21.217 10.2972 17.8351 10.6322 15.3432C10.9464 13.0063 11.4536 12.2739 11.8638 11.8638C12.2739 11.4536 13.0063 10.9464 15.3432 10.6322C17.8351 10.2972 21.217 10.2857 26.449 10.2857L37.7143 10.2857V2.64497e-05L26.5841 1.30905e-05Z" fill="url(#paint0_linear_402_628)"/>
                 <defs>
@@ -210,7 +228,8 @@
                     </linearGradient>
                 </defs>
             </svg>
-            <div id="waiting-text" class="waiting-text">Analysing using our pipeline. Might take from 2 to 5 minutes...</div>
+            <div id="waiting-text-email" class="waiting-text">Analysing using our pipeline. Might take from 2 to 5 minutes...</div>
+        </div>
     </div>
     <script src="/static/js/new-main-script.js"></script>
 </body>

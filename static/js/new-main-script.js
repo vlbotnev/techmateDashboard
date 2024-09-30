@@ -125,17 +125,36 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
     function handleFiles(files) {
-      if (files.length > 0) {
-        let file = files[0];
-        if (file.type.startsWith('audio/')) {
-          updateUI(file.name);
-          currentFileName = file.name;
-          audioFile = file;
-        } else {
-          alert('Please upload an audio file.');
+        if (files.length > 0) {
+            let file = files[0];
+            if (file.type.startsWith('audio/')) {
+                // Проверяем размер файла (3 МБ = 3 * 1024 * 1024 байт)
+                if (file.size > 3145728) {
+                    alert('File is too large, it should be lighter than 3 MB.');
+                    return;
+                }
+
+                // Создаем объект для чтения аудиофайла
+                const audio = new Audio(URL.createObjectURL(file));
+                audio.addEventListener('loadedmetadata', function() {
+                    // Получаем продолжительность файла в секундах
+                    const duration = audio.duration;
+
+                    // Проверяем продолжительность файла (4 минуты = 240 секунд)
+                    if (duration > 240) {
+                        alert('File is too long it should be less then 4 minutes long.');
+                    } else {
+                        updateUI(file.name);
+                        currentFileName = file.name;
+                        audioFile = file;
+                    }
+                });
+            } else {
+                alert('Please upload an audio file.');
+            }
         }
-      }
     }
+
 
     function handleFilesMail(files) {
       if (files.length > 0) {
@@ -204,34 +223,94 @@ document.addEventListener("DOMContentLoaded", function() {
 
     document.getElementById('analyze-calls-button').addEventListener('click', function() {
         document.getElementById('overlay').style.display = 'flex';
-        rotateSVG();
+        document.getElementById('progress-bar').style.width = 0 + '%';
+        document.getElementById('audio-progress-bar').style.display = 'flex';
 
         const formData = new FormData();
         formData.append("file", audioFile);
 
-        fetch('/start-analysis', {
+        fetch('/audio-upload', {
             method: 'POST',
             body: formData
         })
         .then(response => response.json())
         .then(data => {
-            document.getElementById('overlay').style.display = 'none';
-            document.getElementById('audio-file-name-result').innerHTML = currentFileName;
-            const dialog_transcribed_formatted = data.dialog_transcribed.replace(/\n/g, '<br>');
-            const text_analysed_formatted = data.text_analysed.replace(/\n/g, '<br>');
-            const general_ranking_formatted = data.general_ranking.replace(/\n/g, '<br>');
-            const agreements_formatted = data.agreements.replace(/\n/g, '<br>');
-            const score_formatted = data.score.replace(/\n/g, '<br>');
-            document.getElementById('audio-analysis-start').style.display = 'none';
-            document.getElementById('audio-analysis-results').style.display = 'block';
-            document.getElementById('dialogTranscribed').querySelector('.scroll-box').innerHTML = dialog_transcribed_formatted;
-            document.getElementById('textAnalysis').querySelector('.scroll-box').innerHTML = text_analysed_formatted;
-            document.getElementById('generalRanking').querySelector('.scroll-box').innerHTML = general_ranking_formatted;
-            document.getElementById('agreements').querySelector('.scroll-box').innerHTML = agreements_formatted;
-            document.getElementById('score').querySelector('.scroll-box').innerHTML = score_formatted;
-            downloadUrl = data.excel_link;
-            clearInterval(interval)
+            // Создание второго запроса с использованием имени файла, полученного из первого API
+            const request = {
+              "file_path": data.filename,
+              "is_ready": true,
+              "status": "string",
+              "date": "string",
+              "message": "string",
+              "response": "string"
+            };
 
+            return fetch('/audio-analysis', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(request)
+            });
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log("Response data:", data.data.id)
+            const requestId = data.data.id;
+            console.log("Request ID:", requestId);
+
+            // Функция для периодической проверки статуса запроса
+            function checkRequestStatus() {
+                fetch("/audio-analysis-check", {  // Используйте ваш Flask сервер (предполагается, что он работает на порту 5000)
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ request_id: requestId })  // Передаем request_id в теле запроса
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.is_ready) {
+                        console.log('Запрос готов:', data);
+                        const data_response = JSON.parse(data.response);
+                        document.getElementById('overlay').style.display = 'none';
+                        document.getElementById('audio-progress-bar').style.display = 'none';
+                        document.getElementById('step-number').innerHTML = "STEP 0";
+                        document.getElementById('waiting-text').innerHTML = "Pending";
+                        document.getElementById('audio-file-name-result').innerHTML = currentFileName;
+                        console.log('dialog_transcribed_formatted:', data_response.dialog_transcribed);
+                        console.log('text_analysed_formatted:', data_response.text_analysed);
+                        console.log('general_ranking_formatted:', data_response.general_ranking);
+                        console.log('agreements_formatted:', data_response.agreements);
+                        console.log('score_formatted:', data_response.score);
+                        console.log('grade_details_formatted:', data_response.score_details);
+                        const dialog_transcribed_formatted = data_response.dialog_transcribed.replace(/\n/g, '<br>');
+                        const text_analysed_formatted = data_response.text_analysed.replace(/\n/g, '<br>');
+                        const general_ranking_formatted = data_response.general_ranking.replace(/\n/g, '<br>');
+                        const agreements_formatted = data_response.agreements.replace(/\n/g, '<br>');
+                        const score_formatted = data_response.score.replace(/\n/g, '<br>');
+                        const grade_details_formatted = data_response.score_details.replace(/\n/g, '<br>');
+                        document.getElementById('audio-analysis-start').style.display = 'none';
+                        document.getElementById('audio-analysis-results').style.display = 'block';
+                        document.getElementById('dialogTranscribed').querySelector('.scroll-box').innerHTML = dialog_transcribed_formatted;
+                        document.getElementById('textAnalysis').querySelector('.scroll-box').innerHTML = text_analysed_formatted;
+                        document.getElementById('generalRanking').querySelector('.scroll-box').innerHTML = general_ranking_formatted;
+                        document.getElementById('agreements').querySelector('.scroll-box').innerHTML = agreements_formatted;
+                        document.getElementById('score').querySelector('.scroll-box').innerHTML = score_formatted;
+                        document.getElementById('grade_details').querySelector('.scroll-box').innerHTML = grade_details_formatted;
+                        downloadUrl = data_response.excel_link;
+                        console.log('downloadUrl:', downloadUrl);
+                        document.getElementById('audio-progress-bar').style.display = 'none';
+                    } else {
+                        console.log('Запрос все еще обрабатывается...');
+                        updateProgressBar(data.status);
+                        setTimeout(checkRequestStatus, 5000); // Повторная проверка через 5 секунд
+                    }
+                })
+                .catch(error => console.error('Ошибка при проверке статуса запроса:', error));
+            }
+
+            checkRequestStatus();
         })
         .catch(error => {
             document.getElementById('waiting-text').innerHTML = 'Error occurred... Moving back to main page';
@@ -241,8 +320,57 @@ document.addEventListener("DOMContentLoaded", function() {
               },
               4 * 1000
             );
+            document.getElementById('waiting-text').innerHTML = "Pending";
         });
     });
+
+    function updateProgressBar(status) {
+        let progress = 0;
+        switch(status) {
+            case 'PENDING':
+                document.getElementById('step-number').innerHTML = "STEP 0";
+                document.getElementById('waiting-text').innerHTML = "Pending";
+                progress = 0;
+                break;
+            case 'TRANSCRIBING':
+                document.getElementById('step-number').innerHTML = "STEP 1";
+                document.getElementById('waiting-text').innerHTML = "Transcribing dialog";
+                progress = 20;
+                break;
+            case 'TRANSCRIBED':
+                progress = 30;
+                break;
+            case 'ANALYSING':
+                document.getElementById('step-number').innerHTML = "STEP 2";
+                document.getElementById('waiting-text').innerHTML = "Analysing started";
+                progress = 40;
+                break;
+            case 'ANALYSING_25':
+                document.getElementById('step-number').innerHTML = "STEP 2";
+                document.getElementById('waiting-text').innerHTML = "Analysed 25% of text details";
+                progress = 55;
+                break;
+            case 'ANALYSING_50':
+                document.getElementById('step-number').innerHTML = "STEP 2";
+                document.getElementById('waiting-text').innerHTML = "Analysed 50% of text details";
+                progress = 70;
+                break;
+            case 'ANALYSING_75':
+                document.getElementById('step-number').innerHTML = "STEP 2";
+                document.getElementById('waiting-text').innerHTML = "Analysed 75% of text details";
+                progress = 85;
+                break;
+            case 'DONE':
+                document.getElementById('step-number').innerHTML = "STEP 3";
+                document.getElementById('waiting-text').innerHTML = "Analysing is done";
+                progress = 100;
+                break;
+            default:
+                progress = 0;  // Неизвестный статус
+        }
+        // Обновляем ширину прогресс-бара с плавным переходом
+        document.getElementById('progress-bar').style.width = progress + '%';
+    }
 
     const downloadButton = document.getElementById('download-excel');
     let downloadUrl = ''; // Ссылка на скачивание файла
@@ -254,15 +382,7 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 
-    let interval;
-    function rotateSVG() {
-        const svgElement = document.getElementById('loading-svg');
-        let angle = 0;
-        interval = setInterval(function() {
-            angle = (angle + 90) % 360;  // Увеличиваем угол на 90 каждые 3 секунды
-            svgElement.style.transform = `rotate(${angle}deg)`;
-        }, 3000);  // 3000 миллисекунд = 3 секунды
-    }
+
 
 
     const checkboxes1 = document.querySelectorAll('input[type="checkbox"][name="options"]');
@@ -379,8 +499,19 @@ document.addEventListener("DOMContentLoaded", function() {
         switchContent('mail');
     });
 
+    let interval;
+    function rotateSVG() {
+        const svgElement = document.getElementById('loading-svg');
+        let angle = 0;
+        interval = setInterval(function() {
+            angle = (angle + 90) % 360;  // Увеличиваем угол на 90 каждые 3 секунды
+            svgElement.style.transform = `rotate(${angle}deg)`;
+        }, 3000);  // 3000 миллисекунд = 3 секунды
+    }
+
     analysisButtonMail.addEventListener('click', function() {
         document.getElementById('overlay').style.display = 'flex';
+        document.getElementById('mail-analyzer-overlay').style.display = 'flex';
         rotateSVG();
 
         const formData = new FormData();
@@ -426,6 +557,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     if (data.is_ready) {
                         console.log('Запрос готов:', data);
                         document.getElementById('overlay').style.display = 'none';
+                        document.getElementById('mail-analyzer-overlay').style.display = 'none';
                         document.getElementById('mail-file-name-result').innerHTML = currentFileName;
                         document.getElementById('mail-analysis-start').style.display = 'none';
                         document.getElementById('mail-analysis-results').style.display = 'block';
@@ -433,8 +565,8 @@ document.addEventListener("DOMContentLoaded", function() {
                         json_specifications_string = JSON.parse(data.specifications_string);
                         const formattedJson_relevant_items_string = JSON.stringify(json_relevant_items_string, null, 2);
                         const formattedJson_specifications_string = JSON.stringify(json_specifications_string, null, 2);
-                        document.getElementById('relevant-items-mail').querySelector('.scroll-box').innerHTML = `<pre>${formattedJson_relevant_items_string}</pre>`;
-                        document.getElementById('specifications-mail').querySelector('.scroll-box').innerHTML = `<pre>${formattedJson_specifications_string}</pre>`;
+                        document.getElementById('relevant-items-mail').querySelector('.scroll-box').innerHTML = `<pre style="word-break: break-word !important;white-space: pre-wrap !important;">${formattedJson_relevant_items_string}</pre>`;
+                        document.getElementById('specifications-mail').querySelector('.scroll-box').innerHTML = `<pre style="word-break: break-word !important;white-space: pre-wrap !important;">${formattedJson_specifications_string}</pre>`;
                     } else {
                         console.log('Запрос все еще обрабатывается...');
                         setTimeout(checkRequestStatus, 5000); // Повторная проверка через 5 секунд
@@ -453,7 +585,9 @@ document.addEventListener("DOMContentLoaded", function() {
               },
               4 * 1000
             );
+            document.getElementById('waiting-text').innerHTML = "Analysing using our pipeline. Might take from 2 to 5 minutes...";
         });
     });
 });
+
 
