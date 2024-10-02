@@ -141,7 +141,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     const duration = audio.duration;
 
                     // Проверяем продолжительность файла (4 минуты = 240 секунд)
-                    if (duration > 240) {
+                    if (duration > 300) {
                         alert('File is too long it should be less then 4 minutes long.');
                     } else {
                         updateUI(file.name);
