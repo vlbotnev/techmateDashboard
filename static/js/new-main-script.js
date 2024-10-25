@@ -172,29 +172,29 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     function updateUI(fileName) {
-      document.getElementById('drop-down-info-audio').style.display = 'none';
-      document.getElementById('audio-file-name').innerHTML = fileName;
-      document.getElementById('drop-row-container').style.alignItems = 'center';
-      document.querySelector('.audio-file-details').style.display = 'flex';
-      document.getElementById('visualization-options-text').style.display = 'block';
-      document.getElementById('visualization-options').style.display = 'flex';
-      const checkboxes = document.querySelectorAll('.row-container input[type="checkbox"]');
-      const analysisButton = document.getElementById('analyze-calls-button');
-      analysisButton.style.display = 'block'; // Делаем кнопку видимой
-      toggleButtonState(); // Проверяем состояние чекбоксов сразу после загрузки файла
+        document.getElementById('drop-down-info-audio').style.display = 'none';
+        document.getElementById('audio-file-name').innerHTML = fileName;
+        document.getElementById('drop-row-container').style.alignItems = 'center';
+        document.querySelector('.audio-file-details').style.display = 'flex';
+        document.getElementById('visualization-options-text').style.display = 'block';
+        document.getElementById('visualization-options').style.display = 'flex';
+        const checkboxes = document.querySelectorAll('.row-container input[type="checkbox"]');
+        const analysisButton = document.getElementById('analyze-calls-button');
+        analysisButton.style.display = 'block'; // Делаем кнопку видимой
+        toggleButtonState(); // Проверяем состояние чекбоксов сразу после загрузки файла
 
-      // Добавляем обработчики для чекбоксов
-      checkboxes.forEach(checkbox => {
-        checkbox.addEventListener('change', toggleButtonState);
-      });
+        // Добавляем обработчики для чекбоксов
+        checkboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', toggleButtonState);
+        });
 
-      function toggleButtonState() {
-        // Проверяем, активирован ли хотя бы один чекбокс
-        const isChecked = Array.from(checkboxes).some(checkbox => checkbox.checked);
+        function toggleButtonState() {
+            // Проверяем, активирован ли хотя бы один чекбокс
+            const isChecked = Array.from(checkboxes).some(checkbox => checkbox.checked);
 
-        // Устанавливаем доступность кнопки
-        analysisButton.disabled = !isChecked;
-      }
+            // Устанавливаем доступность кнопки
+            analysisButton.disabled = !isChecked;
+        }
     }
 
     // Получаем все чекбоксы в контейнере
@@ -210,6 +210,83 @@ document.addEventListener("DOMContentLoaded", function() {
         }
       });
     });
+
+    const dialogTranscribed = document.querySelector('input[value="dialogTranscribed"]');
+    const scoreCheckbox = document.querySelector('input[value="score"]');
+    const gradeDetailsCheckbox = document.querySelector('input[value="grade_details"]');
+
+
+    function updateDependentCheckboxes() {
+        // Делаем все чекбоксы кроме первого зависимыми от состояния первого
+        checkboxes.forEach(function (checkbox) {
+            if (checkbox !== dialogTranscribed) {
+                checkbox.disabled = !dialogTranscribed.checked;
+                if (!dialogTranscribed.checked) {
+                    checkbox.checked = false; // Сбрасываем выбор, если dialogTranscribed не выбран
+                    checkbox.parentNode.style.backgroundColor = ''; // Сбрасываем фон, если чекбокс не активен
+                }
+            }
+        });
+
+        // Делаем чекбокс "grade_details" зависимым от "score"
+        gradeDetailsCheckbox.disabled = !scoreCheckbox.checked;
+        if (!scoreCheckbox.checked) {
+            gradeDetailsCheckbox.checked = false; // Сбрасываем выбор, если "score" не выбран
+            gradeDetailsCheckbox.parentNode.style.backgroundColor = ''; // Сбрасываем фон
+        }
+    }
+
+    let checkboxStates = {
+        "dialogTranscribed": false,
+        "textAnalysis": false,
+        "generalRanking":false,
+        "agreements":false,
+        "score":false,
+        "grade_details":false
+    }; // Делаем переменную доступной в области видимости всей функции
+
+    function saveCheckboxStates() {
+        checkboxStates = {}; // Обновляем объект состояний
+        checkboxes.forEach(function (checkbox) {
+            checkboxStates[checkbox.value] = checkbox.checked;
+        });
+        //console.log(JSON.stringify(checkboxStates)); // Выводим состояние в консоль для проверки
+    }
+
+    updateDependentCheckboxes();
+    saveCheckboxStates();
+
+    checkboxes.forEach(function (checkbox) {
+        checkbox.addEventListener('change', function () {
+            updateDependentCheckboxes();
+            saveCheckboxStates();
+            updateButtonVisibility(); // Ваша функция для обновления видимости кнопок
+            // Обновляем фон при выборе или снятии выбора
+            this.parentNode.style.backgroundColor = this.checked ? 'rgba(0, 0, 0, 0.03)' : '';
+        });
+    });
+
+    function updateCheckboxStyles() {
+        checkboxes.forEach(checkbox => {
+            const label = checkbox.parentNode;
+
+            if (checkbox.disabled) {
+                label.classList.add('disabled');
+            } else {
+                label.classList.remove('disabled');
+            }
+        });
+    }
+
+    checkboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', function() {
+            updateCheckboxStyles(); // обновляем стили при каждом изменении состояния чекбокса
+        });
+    });
+
+    // Вызываем функцию сразу после загрузки страницы, чтобы установить начальные стили
+    updateCheckboxStyles();
+
 
     function updateUIMail(fileName) {
       document.getElementById('drop-down-info-mail').style.display = 'none';
@@ -238,15 +315,18 @@ document.addEventListener("DOMContentLoaded", function() {
         .then(response => response.json())
         .then(data => {
             // Создание второго запроса с использованием имени файла, полученного из первого API
+            console.log("Создаю request")
             const request = {
               "file_path": data.filename,
               "is_ready": true,
               "status": "string",
               "date": "string",
               "message": "string",
-              "response": "string"
+              "response": "string",
+              "steps_dict": checkboxStates,
+              "progress": 0,
             };
-
+            console.log("Request data:", request)
             return fetch('/audio-analysis', {
                 method: 'POST',
                 headers: {
@@ -273,39 +353,84 @@ document.addEventListener("DOMContentLoaded", function() {
                 .then(response => response.json())
                 .then(data => {
                     if (data.is_ready) {
+                        const defaultButton = document.getElementById('transcription-result-calls');
+                        if (defaultButton) {
+                            defaultButton.click();
+                        } else {
+                            console.error('Default button not found'); // Логирование ошибки, если кнопка не найдена
+                        }
+                        updateProgressBar(data);
                         console.log('Запрос готов:', data);
                         const data_response = JSON.parse(data.response);
-                        document.getElementById('overlay').style.display = 'none';
+                        setTimeout(() =>
+                        {const overlay = document.getElementById('overlay');
+                        overlay.style.opacity = '0'; // Сначала делаем элемент прозрачным
+                        // Функция, которая будет вызвана после анимации прозрачности
+                        const onTransitionEnd = () => {
+                            overlay.style.display = 'none'; // Скрываем элемент после анимации
+                            overlay.removeEventListener('transitionend', onTransitionEnd); // Удаляем обработчик, чтобы не вызывать его повторно
+                        };
+                        overlay.addEventListener('transitionend', onTransitionEnd);
                         document.getElementById('audio-progress-bar').style.display = 'none';
                         document.getElementById('step-number').innerHTML = "STEP 0";
-                        document.getElementById('waiting-text').innerHTML = "Pending";
+                        document.getElementById('waiting-text').innerHTML = "Pending";}, 4*1000);
+
+
                         document.getElementById('audio-file-name-result').innerHTML = currentFileName;
-                        console.log('dialog_transcribed_formatted:', data_response.dialog_transcribed);
-                        console.log('text_analysed_formatted:', data_response.text_analysed);
-                        console.log('general_ranking_formatted:', data_response.general_ranking);
-                        console.log('agreements_formatted:', data_response.agreements);
-                        console.log('score_formatted:', data_response.score);
-                        console.log('grade_details_formatted:', data_response.score_details);
-                        const dialog_transcribed_formatted = data_response.dialog_transcribed.replace(/\n/g, '<br>');
-                        const text_analysed_formatted = data_response.text_analysed.replace(/\n/g, '<br>');
-                        const general_ranking_formatted = data_response.general_ranking.replace(/\n/g, '<br>');
-                        const agreements_formatted = data_response.agreements.replace(/\n/g, '<br>');
-                        const score_formatted = data_response.score.replace(/\n/g, '<br>');
-                        const grade_details_formatted = data_response.score_details.replace(/\n/g, '<br>');
+                        //console.log('dialog_transcribed_formatted:', data_response.dialog_transcribed);
+                        // console.log('text_analysed_formatted:', data_response.text_analysed);
+                        // console.log('general_ranking_formatted:', data_response.general_ranking);
+                        // console.log('agreements_formatted:', data_response.agreements);
+                        // console.log('score_formatted:', data_response.score);
+                        // console.log('grade_details_formatted:', data_response.score_details);
+                        if (checkboxStates['dialogTranscribed']) {
+                            const dialog_transcribed_formatted = data_response.dialog_transcribed.replace(/\n/g, '<br>');
+                            document.getElementById('dialogTranscribed').querySelector('.scroll-box').innerHTML = dialog_transcribed_formatted;
+                            // console.log(dialog_transcribed_formatted);
+                        }
+
+                        if (checkboxStates['textAnalysis']) {
+                            const text_analysed_formatted = data_response.text_analysed.replace(/\n/g, '<br>');
+                            document.getElementById('textAnalysis').querySelector('.scroll-box').innerHTML = text_analysed_formatted;
+                            // console.log(text_analysed_formatted);
+                        }
+
+                        if (checkboxStates['generalRanking']) {
+                            const general_ranking_formatted = data_response.general_ranking.replace(/\n/g, '<br>');
+                            document.getElementById('generalRanking').querySelector('.scroll-box').innerHTML = general_ranking_formatted;
+                            // console.log(general_ranking_formatted);
+                        }
+
+                        if (checkboxStates['agreements']) {
+                            const agreements_formatted = data_response.agreements.replace(/\n/g, '<br>');
+                            document.getElementById('agreements').querySelector('.scroll-box').innerHTML = agreements_formatted;
+                            // console.log(agreements_formatted);
+                        }
+
+                        if (checkboxStates['score']) {
+                            const score_formatted = data_response.score.replace(/\n/g, '<br>');
+                            document.getElementById('score').querySelector('.scroll-box').innerHTML = score_formatted;
+                            // console.log(score_formatted);
+                        }
+
+                        if (checkboxStates['grade_details']) {
+                            const grade_details_formatted = data_response.score_details.replace(/\n/g, '<br>');
+                            document.getElementById('grade_details').querySelector('.scroll-box').innerHTML = grade_details_formatted;
+                            // console.log(grade_details_formatted);
+                        }
                         document.getElementById('audio-analysis-start').style.display = 'none';
                         document.getElementById('audio-analysis-results').style.display = 'block';
-                        document.getElementById('dialogTranscribed').querySelector('.scroll-box').innerHTML = dialog_transcribed_formatted;
-                        document.getElementById('textAnalysis').querySelector('.scroll-box').innerHTML = text_analysed_formatted;
-                        document.getElementById('generalRanking').querySelector('.scroll-box').innerHTML = general_ranking_formatted;
-                        document.getElementById('agreements').querySelector('.scroll-box').innerHTML = agreements_formatted;
-                        document.getElementById('score').querySelector('.scroll-box').innerHTML = score_formatted;
-                        document.getElementById('grade_details').querySelector('.scroll-box').innerHTML = grade_details_formatted;
+
+
+
+
+
+
                         downloadUrl = data_response.excel_link;
                         console.log('downloadUrl:', downloadUrl);
-                        document.getElementById('audio-progress-bar').style.display = 'none';
                     } else {
                         console.log('Запрос все еще обрабатывается...');
-                        updateProgressBar(data.status);
+                        updateProgressBar(data);
                         setTimeout(checkRequestStatus, 5000); // Повторная проверка через 5 секунд
                     }
                 })
@@ -326,52 +451,41 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     });
 
-    function updateProgressBar(status) {
-        let progress = 0;
-        switch(status) {
-            case 'PENDING':
-                document.getElementById('step-number').innerHTML = "STEP 0";
-                document.getElementById('waiting-text').innerHTML = "Pending";
-                progress = 0;
-                break;
-            case 'TRANSCRIBING':
-                document.getElementById('step-number').innerHTML = "STEP 1";
-                document.getElementById('waiting-text').innerHTML = "Transcribing dialog";
-                progress = 20;
-                break;
-            case 'TRANSCRIBED':
-                progress = 30;
-                break;
-            case 'ANALYSING':
-                document.getElementById('step-number').innerHTML = "STEP 2";
-                document.getElementById('waiting-text').innerHTML = "Analysing started";
-                progress = 40;
-                break;
-            case 'ANALYSING_25':
-                document.getElementById('step-number').innerHTML = "STEP 2";
-                document.getElementById('waiting-text').innerHTML = "Analysed 25% of text details";
-                progress = 55;
-                break;
-            case 'ANALYSING_50':
-                document.getElementById('step-number').innerHTML = "STEP 2";
-                document.getElementById('waiting-text').innerHTML = "Analysed 50% of text details";
-                progress = 70;
-                break;
-            case 'ANALYSING_75':
-                document.getElementById('step-number').innerHTML = "STEP 2";
-                document.getElementById('waiting-text').innerHTML = "Analysed 75% of text details";
-                progress = 85;
-                break;
-            case 'DONE':
-                document.getElementById('step-number').innerHTML = "STEP 3";
-                document.getElementById('waiting-text').innerHTML = "Analysing is done";
-                progress = 100;
-                break;
-            default:
-                progress = 0;  // Неизвестный статус
+    let step = 0; // Глобальная переменная для шага
+    let previousStatus = ''; // Переменная для хранения предыдущего статуса
+
+    function updateProgressBar(data) {
+        if (data.status !== previousStatus) { // Проверяем, изменился ли статус
+            previousStatus = data.status; // Обновляем предыдущий статус
+
+            switch(data.status) {
+                case 'PENDING':
+                    document.getElementById('step-number').innerHTML = `STEP ${step}`;
+                    document.getElementById('waiting-text').innerHTML = "Pending";
+                    step++;
+                    console.log('Step incremented to:', step);
+                    break;
+                case 'TRANSCRIBING':
+                    document.getElementById('step-number').innerHTML = `STEP ${step}`;
+                    document.getElementById('waiting-text').innerHTML = "Transcribing dialog";
+                    step++;
+                    console.log('Step incremented to:', step);
+                    break;
+                case 'ANALYSING':
+                    document.getElementById('step-number').innerHTML = `STEP ${step}`;
+                    document.getElementById('waiting-text').innerHTML = "Analysing started";
+                    step++;
+                    console.log('Step incremented to:', step);
+                    break;
+                case 'DONE':
+                    document.getElementById('step-number').innerHTML = `STEP ${step}`;
+                    document.getElementById('waiting-text').innerHTML = "Processing is done";
+                    break;
+            }
         }
+
         // Обновляем ширину прогресс-бара с плавным переходом
-        document.getElementById('progress-bar').style.width = progress + '%';
+        document.getElementById('progress-bar').style.width = (data.progress*100) + '%';
     }
 
     const downloadButton = document.getElementById('download-excel');
@@ -441,14 +555,6 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     });
 
-    // Активируем кнопку Transcription по умолчанию
-    const defaultButton = document.getElementById('transcription-result-calls');
-    if (defaultButton) {
-        defaultButton.click();
-    } else {
-        console.error('Default button not found'); // Логирование ошибки, если кнопка не найдена
-    }
-
     const defaultButtonMail = document.getElementById('specifications-button-mail');
     if (defaultButtonMail) {
         defaultButtonMail.click();
@@ -460,8 +566,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const backButtonMail = document.getElementById('back-button-mail');
 
     backButton.addEventListener('click', function() {
-        document.getElementById('audio-analysis-results').style.display = 'none';
-        document.getElementById('audio-analysis-start').style.display = 'block';
+        window.location.reload();
     });
 
     backButtonMail.addEventListener('click', function() {
@@ -590,6 +695,9 @@ document.addEventListener("DOMContentLoaded", function() {
             document.getElementById('waiting-text').innerHTML = "Analysing using our pipeline. Might take from 2 to 5 minutes...";
         });
     });
+
+
+
 });
 
 

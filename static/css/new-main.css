@@ -172,6 +172,12 @@ html, body {
     background: rgba(0, 0, 0, 0.03);
 }
 
+.checkbox-label.disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+    background-color: rgba(245, 245, 245, 1);
+}
+
 input[type="checkbox"] {
     -webkit-appearance: none; /* Убрать стандартный стиль для WebKit/Blink браузеров */
     -moz-appearance: none;    /* Убрать стандартный стиль для Firefox */
@@ -233,6 +239,7 @@ input[type="checkbox"]:checked {
     align-items: center;
     z-index: 1000; /* Убедитесь, что затемнение поверх всех элементов */
     backdrop-filter: blur(20px); /* Добавляем размытие фона */
+    transition: opacity 0.5s ease;  // Добавьте это свойство в ваш CSS-файл
 }
 
 .waiting-text {
