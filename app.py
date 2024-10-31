@@ -103,7 +103,7 @@ def audio_analysis():
 
     # Отправляем запрос на внешний API
     try:
-        response = requests.post('http://10.88.88.90:3333/api/v1/processing', json=data)
+        response = requests.post('http://10.88.88.90:2222/api/v1/processing', json=data)
 
         # Если запрос успешен, возвращаем ответ
         if response.status_code == 201:
@@ -125,7 +125,7 @@ def audio_analysis_check():
         return jsonify({"error": "No request_id provided"}), 400
 
     # Формируем URL для проверки статуса запроса
-    url = f'http://10.88.88.90:3333/api/v1/processing/{request_id}'
+    url = f'http://10.88.88.90:2222/api/v1/processing/{request_id}'
 
     try:
         # Выполняем GET запрос к внешнему API
