@@ -32,7 +32,7 @@ def mail_upload():
 def audio_upload():
     f = request.files['file']
     if f:
-        api_url = "http://10.88.88.90:3333/upload/"
+        api_url = "http://10.88.88.90:2222/upload/"
         try:
             response = requests.post(api_url, files={'file': (f.filename, f.stream, f.content_type)}, timeout=180)
             return Response(response.content, response.status_code, response.headers.items())
