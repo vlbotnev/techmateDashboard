@@ -180,22 +180,41 @@ document.addEventListener("DOMContentLoaded", function() {
         document.getElementById('visualization-options').style.display = 'flex';
         const checkboxes = document.querySelectorAll('.row-container input[type="checkbox"]');
         const analysisButton = document.getElementById('analyze-calls-button');
+        const dropdown = document.querySelector('#audio-analysis-dropdown .custom-select'); // Ссылка на ваш кастомный дропдаун
+        const options = document.querySelectorAll('#audio-analysis-dropdown .custom-option'); // Опции дропдауна
+
+
         analysisButton.style.display = 'block'; // Делаем кнопку видимой
-        toggleButtonState(); // Проверяем состояние чекбоксов сразу после загрузки файла
+        document.getElementById('audio-analysis-dropdown').style.display = 'flex';
 
         // Добавляем обработчики для чекбоксов
         checkboxes.forEach(checkbox => {
             checkbox.addEventListener('change', toggleButtonState);
         });
 
+        // Добавляем обработчики для кастомных опций дропдауна
+        options.forEach(option => {
+            option.addEventListener('click', function() {
+                dropdown.querySelector('.custom-select__trigger span').textContent = this.textContent; // Обновляем текст заголовка дропдауна
+                toggleButtonState(); // Пересчитываем состояние кнопки
+            });
+        });
+
         function toggleButtonState() {
+            // Проверяем, выбрана ли какая-либо значимая опция (проверка на начальный текст)
+            const isDropdownSelected = dropdown.querySelector('.custom-select__trigger span').textContent !== "Audiofile language";
             // Проверяем, активирован ли хотя бы один чекбокс
             const isChecked = Array.from(checkboxes).some(checkbox => checkbox.checked);
 
             // Устанавливаем доступность кнопки
-            analysisButton.disabled = !isChecked;
+            analysisButton.disabled = !isDropdownSelected || !isChecked;
         }
+
+        // Вызываем toggleButtonState при инициализации для установки начального состояния кнопки
+        toggleButtonState();
     }
+
+
 
     // Получаем все чекбоксы в контейнере
     var checkboxes = document.querySelectorAll('.row-container input[type="checkbox"]');
@@ -315,16 +334,17 @@ document.addEventListener("DOMContentLoaded", function() {
         .then(response => response.json())
         .then(data => {
             // Создание второго запроса с использованием имени файла, полученного из первого API
-            console.log("Создаю request")
+            // console.log("Создаю request")
             const request = {
               "file_path": data.filename,
-              "is_ready": true,
+              "is_ready": false,
               "status": "string",
               "date": "string",
               "message": "string",
               "response": "string",
               "steps_dict": checkboxStates,
               "progress": 0,
+              "lang_code": selectedDataValue,
             };
             console.log("Request data:", request)
             return fetch('/audio-analysis', {
@@ -337,9 +357,32 @@ document.addEventListener("DOMContentLoaded", function() {
         })
         .then(response => response.json())
         .then(data => {
-            console.log("Response data:", data.data.id)
+            // console.log("Response data:", data.data.id)
             const requestId = data.data.id;
-            console.log("Request ID:", requestId);
+            // console.log("Request ID:", requestId);
+
+            // Функция для периодической проверки очереди
+            function checkQueue() {
+                fetch("/audio-analysis-check-queue", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ request_id: requestId })
+                })
+                .then(response => response.json())
+                .then(queueData => {
+                    console.log('Текущая позиция в очереди:', queueData.queue_position);
+                    document.getElementById('queue_pos_audio_analysis').innerHTML = 'Queue: ' + queueData;
+                    if (!queueData.is_ready) {
+                        setTimeout(checkQueue, 5000); // Повторная проверка через 5 секунд, если данные ещё не готовы
+                    } else {
+                        console.log('Анализ готов!');
+                    }
+                })
+            }
+
+            checkQueue(); // Начать проверку очереди
 
             // Функция для периодической проверки статуса запроса
             function checkRequestStatus() {
@@ -695,6 +738,35 @@ document.addEventListener("DOMContentLoaded", function() {
             document.getElementById('waiting-text').innerHTML = "Analysing using our pipeline. Might take from 2 to 5 minutes...";
         });
     });
+
+    document.querySelector('.custom-select-wrapper').addEventListener('click', function() {
+        this.querySelector('.custom-select').classList.toggle('open');
+    })
+
+    let selectedDataValue = '';
+
+    for (const option of document.querySelectorAll(".custom-option")) {
+        option.addEventListener('click', function() {
+            if (!this.classList.contains('selected')) {
+                this.parentNode.querySelector('.custom-option.selected')?.classList.remove('selected');
+                this.classList.add('selected');
+                selectedDataValue = this.getAttribute('data-value');
+                this.closest('.custom-select').querySelector('.custom-select__trigger span').textContent = this.textContent;
+                // console.log('Selected data-value:', selectedDataValue);
+            }
+        })
+    }
+
+    window.addEventListener('click', function(e) {
+        const select = document.querySelector('.custom-select');
+        if (!select.contains(e.target)) {
+            select.classList.remove('open');
+        }
+    });
+
+    // Установка начального текста для заголовка при загрузке страницы
+    const selectTrigger = document.querySelector('.custom-select__trigger span');
+    selectTrigger.textContent = "Audiofile language"; // Установите текст, который вы хотите видеть по умолчанию
 
 
 

@@ -69,6 +69,8 @@ html, body {
     position: fixed;
     height: 100%;
     background-color: black;
+    top: 0;
+    left: 0;
 }
 
 #logo {
@@ -413,4 +415,56 @@ input[type="checkbox"]:checked {
     border-radius: 6px; /* Скругление только левого нижнего угла */
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Небольшой тень для акцента */
     transform: translate(50%, -50%); /* Смещение для позиционирования по углам */
+}
+
+.custom-select-wrapper {
+    position: relative;
+    user-select: none;
+
+}
+.custom-select {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+.custom-select__trigger {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    background: black;
+    color: white;
+    border-radius: 100px;
+    padding: 16px;
+    padding-left: 32px;
+    padding-right: 32px;
+    font-size: 14px;
+    font-weight: 500;
+    text-align: center;
+}
+.custom-options {
+    position: absolute;
+    display: none;
+    border: 1px solid #ccc;
+    background: #ffffff;
+    border-radius: 5px;
+    width: max-content;
+    bottom: 100%;
+    left: 0;
+    right: 0;
+    z-index: 2;
+}
+.custom-option {
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+.custom-option:hover {
+    background-color: #f2f2f2;
+}
+.custom-select.open .custom-options {
+    display: flex;
+    flex-direction: column;
 }

@@ -141,6 +141,31 @@ def audio_analysis_check():
         return jsonify({"status": "failed", "reason": str(e)}), 500
 
 
+@app.route('/audio-analysis-check-queue', methods=['POST'])
+def audio_analysis_check_queue():
+    # Получаем request_id из JSON запроса
+    data = request.get_json()
+    request_id = data.get('request_id')
+
+    if not request_id:
+        return jsonify({"error": "No request_id provided"}), 400
+
+    # Формируем URL для проверки статуса запроса
+    url = f'http://10.88.88.90:2222/api/v1/processing/count_queue/{request_id}'
+
+    try:
+        # Выполняем GET запрос к внешнему API
+        response = requests.get(url)
+
+        if response.status_code == 200:
+            # Возвращаем ответ от API
+            return jsonify(response.json()), 200
+        else:
+            return jsonify({"status": "failed", "reason": response.text}), response.status_code
+    except requests.exceptions.RequestException as e:
+        # Обработка ошибок при выполнении запроса
+        return jsonify({"status": "failed", "reason": str(e)}), 500
+
 @app.route('/download-excel')
 def download_excel():
     file_url = request.args.get('url')

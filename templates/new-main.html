@@ -37,7 +37,8 @@
                         <div id="drop-row-container" class="row-container">
                             <div id="drop-down-info-audio" class="column-container">
                                 <h3 class="drag-title">Drag and drop your audio file here</h3>
-                                <div class="extra-info-about-file">MP3, WAV, FLAC, AIFF, AU, WMA, ALAC files supported<br>Max file size: 3 MB. Max file length: 4 MIN</div>
+                                <div class="extra-info-about-file">MP3, WAV, FLAC, AIFF, AU, WMA, ALAC files supported</div>
+<!--                                    <br>Max file size: 3 MB. Max file length: 4 MIN</div>-->
                             </div>
                             <div class="audio-file-details" style="display: none;">
                                 <div class="row-container" style="gap:8px;align-items: center;">
@@ -68,7 +69,23 @@
                     <label class="checkbox-label"><input type="checkbox" name="options" value="score">Rating on a 10-point scale</label>
                     <label class="checkbox-label"><input type="checkbox" name="options" value="grade_details">Score details</label>
                 </div>
-                <button id="analyze-calls-button" class="analysis-button" style="margin-top:48px;display: none;" disabled >Start analysis</button>
+                <div class="row-container" style="align-items: center;justify-content: flex-start;margin-top: 48px;gap: 24px;">
+                    <div id="audio-analysis-dropdown" class="custom-select-wrapper" style="display: none;">
+                        <div class="custom-select">
+                            <div class="custom-select__trigger"><span>Audiofile language</span>
+                                <div class="arrow"></div>
+                            </div>
+                            <div class="custom-options">
+                                <span class="custom-option" data-value="ru">ru: Russian</span>
+                                <span class="custom-option" data-value="az">az: Azerbaijani</span>
+                                <span class="custom-option" data-value="ar">ar: Arabic</span>
+                                <span class="custom-option" data-value="en">en: English</span>
+                                <span class="custom-option" data-value="none">Any</span>
+                            </div>
+                        </div>
+                    </div>
+                    <button id="analyze-calls-button" class="analysis-button" style="display: none;" disabled >Start analysis</button>
+                </div>
             </div>
             <div id="audio-analysis-results" class="column-container" style="display:none;">
                 <h1 class="audio-analysis-title">Your audio analysis results</h1>
@@ -213,8 +230,16 @@
     </div>
     <div id="overlay" class="column-container" style="display: none;">
         <div id="audio-progress-bar" class="column-container" style="display: none; flex-direction: column; align-items: flex-start">
-            <div id="step-number" style="line-height: 24px;font-weight: 700;font-size: 16px;">STEP 0</div>
-            <div id="waiting-text" class="waiting-text">Pending</div>
+            <div style="display: flex;flex-direction: row;align-items: flex-end;justify-content: space-between;width: 100%">
+                <div class="column-container">
+                    <div id="step-number" style="line-height: 24px;font-weight: 700;font-size: 16px;">STEP 0</div>
+                    <div id="waiting-text" class="waiting-text">Pending</div>
+                </div>
+                <div class="column-container">
+                    <div style="line-height: 24px;font-weight: 700;font-size: 16px;">POSITION IN</div>
+                    <div id="queue_pos_audio_analysis" class="waiting-text">Queue: </div>
+                </div>
+            </div>
             <div class="progress-container">
                 <div id="progress-bar"></div>
             </div>
