@@ -131,7 +131,7 @@ document.addEventListener("DOMContentLoaded", function() {
             let file = files[0];
             if (file.type.startsWith('audio/')) {
                 // Проверяем размер файла (3 МБ = 3 * 1024 * 1024 байт)
-                if (file.size > 3145728) {
+                if (file.size > 5242880) {
                     alert('File is too large, it should be lighter than 3 MB.');
                     return;
                 }
@@ -143,7 +143,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     const duration = audio.duration;
 
                     // Проверяем продолжительность файла (4 минуты = 240 секунд)
-                    if (duration > 240) {
+                    if (duration > 420) {
                         alert('File is too long it should be less then 4 minutes long.');
                     } else {
                         updateUI(file.name);
