@@ -396,81 +396,90 @@ document.addEventListener("DOMContentLoaded", function() {
                 .then(response => response.json())
                 .then(data => {
                     if (data.is_ready) {
-                        const defaultButton = document.getElementById('transcription-result-calls');
-                        if (defaultButton) {
-                            defaultButton.click();
-                        } else {
-                            console.error('Default button not found'); // Логирование ошибки, если кнопка не найдена
+                        if (data.status === "ERROR") {
+                            document.getElementById('waiting-text').innerHTML = 'Error occurred... Moving back to main page';
+                            setTimeout(
+                                () => {
+                                    document.getElementById('overlay').style.display = 'none';
+                                    },
+                                4 * 1000
+                            );
+                            document.getElementById('waiting-text').innerHTML = "Pending";
                         }
-                        updateProgressBar(data);
-                        console.log('Запрос готов:', data);
-                        const data_response = JSON.parse(data.response);
-                        setTimeout(() =>
-                        {const overlay = document.getElementById('overlay');
-                        overlay.style.opacity = '0'; // Сначала делаем элемент прозрачным
-                        // Функция, которая будет вызвана после анимации прозрачности
-                        const onTransitionEnd = () => {
-                            overlay.style.display = 'none'; // Скрываем элемент после анимации
-                            overlay.removeEventListener('transitionend', onTransitionEnd); // Удаляем обработчик, чтобы не вызывать его повторно
-                        };
-                        overlay.addEventListener('transitionend', onTransitionEnd);
-                        document.getElementById('audio-progress-bar').style.display = 'none';
-                        document.getElementById('step-number').innerHTML = "STEP 0";
-                        document.getElementById('waiting-text').innerHTML = "Pending";}, 4*1000);
+                        else {
+                            const defaultButton = document.getElementById('transcription-result-calls');
+                            if (defaultButton) {
+                                defaultButton.click();
+                            } else {
+                                console.error('Default button not found'); // Логирование ошибки, если кнопка не найдена
+                            }
+                            updateProgressBar(data);
+                            console.log('Запрос готов:', data);
+                            const data_response = JSON.parse(data.response);
+                            setTimeout(() => {
+                                const overlay = document.getElementById('overlay');
+                                overlay.style.opacity = '0'; // Сначала делаем элемент прозрачным
+                                // Функция, которая будет вызвана после анимации прозрачности
+                                const onTransitionEnd = () => {
+                                    overlay.style.display = 'none'; // Скрываем элемент после анимации
+                                    overlay.removeEventListener('transitionend', onTransitionEnd); // Удаляем обработчик, чтобы не вызывать его повторно
+                                };
+                                overlay.addEventListener('transitionend', onTransitionEnd);
+                                document.getElementById('audio-progress-bar').style.display = 'none';
+                                document.getElementById('step-number').innerHTML = "STEP 0";
+                                document.getElementById('waiting-text').innerHTML = "Pending";
+                            }, 4 * 1000);
 
 
-                        document.getElementById('audio-file-name-result').innerHTML = currentFileName;
-                        //console.log('dialog_transcribed_formatted:', data_response.dialog_transcribed);
-                        // console.log('text_analysed_formatted:', data_response.text_analysed);
-                        // console.log('general_ranking_formatted:', data_response.general_ranking);
-                        // console.log('agreements_formatted:', data_response.agreements);
-                        // console.log('score_formatted:', data_response.score);
-                        // console.log('grade_details_formatted:', data_response.score_details);
-                        if (checkboxStates['dialogTranscribed']) {
-                            const dialog_transcribed_formatted = data_response.dialog_transcribed.replace(/\n/g, '<br>');
-                            document.getElementById('dialogTranscribed').querySelector('.scroll-box').innerHTML = dialog_transcribed_formatted;
-                            // console.log(dialog_transcribed_formatted);
+                            document.getElementById('audio-file-name-result').innerHTML = currentFileName;
+                            //console.log('dialog_transcribed_formatted:', data_response.dialog_transcribed);
+                            // console.log('text_analysed_formatted:', data_response.text_analysed);
+                            // console.log('general_ranking_formatted:', data_response.general_ranking);
+                            // console.log('agreements_formatted:', data_response.agreements);
+                            // console.log('score_formatted:', data_response.score);
+                            // console.log('grade_details_formatted:', data_response.score_details);
+                            if (checkboxStates['dialogTranscribed']) {
+                                const dialog_transcribed_formatted = data_response.dialog_transcribed.replace(/\n/g, '<br>');
+                                document.getElementById('dialogTranscribed').querySelector('.scroll-box').innerHTML = dialog_transcribed_formatted;
+                                // console.log(dialog_transcribed_formatted);
+                            }
+
+                            if (checkboxStates['textAnalysis']) {
+                                const text_analysed_formatted = data_response.text_analysed.replace(/\n/g, '<br>');
+                                document.getElementById('textAnalysis').querySelector('.scroll-box').innerHTML = text_analysed_formatted;
+                                // console.log(text_analysed_formatted);
+                            }
+
+                            if (checkboxStates['generalRanking']) {
+                                const general_ranking_formatted = data_response.general_ranking.replace(/\n/g, '<br>');
+                                document.getElementById('generalRanking').querySelector('.scroll-box').innerHTML = general_ranking_formatted;
+                                // console.log(general_ranking_formatted);
+                            }
+
+                            if (checkboxStates['agreements']) {
+                                const agreements_formatted = data_response.agreements.replace(/\n/g, '<br>');
+                                document.getElementById('agreements').querySelector('.scroll-box').innerHTML = agreements_formatted;
+                                // console.log(agreements_formatted);
+                            }
+
+                            if (checkboxStates['score']) {
+                                const score_formatted = data_response.score.replace(/\n/g, '<br>');
+                                document.getElementById('score').querySelector('.scroll-box').innerHTML = score_formatted;
+                                // console.log(score_formatted);
+                            }
+
+                            if (checkboxStates['grade_details']) {
+                                const grade_details_formatted = data_response.score_details.replace(/\n/g, '<br>');
+                                document.getElementById('grade_details').querySelector('.scroll-box').innerHTML = grade_details_formatted;
+                                // console.log(grade_details_formatted);
+                            }
+                            document.getElementById('audio-analysis-start').style.display = 'none';
+                            document.getElementById('audio-analysis-results').style.display = 'block';
+
+
+                            downloadUrl = data_response.excel_link;
+                            console.log('downloadUrl:', downloadUrl);
                         }
-
-                        if (checkboxStates['textAnalysis']) {
-                            const text_analysed_formatted = data_response.text_analysed.replace(/\n/g, '<br>');
-                            document.getElementById('textAnalysis').querySelector('.scroll-box').innerHTML = text_analysed_formatted;
-                            // console.log(text_analysed_formatted);
-                        }
-
-                        if (checkboxStates['generalRanking']) {
-                            const general_ranking_formatted = data_response.general_ranking.replace(/\n/g, '<br>');
-                            document.getElementById('generalRanking').querySelector('.scroll-box').innerHTML = general_ranking_formatted;
-                            // console.log(general_ranking_formatted);
-                        }
-
-                        if (checkboxStates['agreements']) {
-                            const agreements_formatted = data_response.agreements.replace(/\n/g, '<br>');
-                            document.getElementById('agreements').querySelector('.scroll-box').innerHTML = agreements_formatted;
-                            // console.log(agreements_formatted);
-                        }
-
-                        if (checkboxStates['score']) {
-                            const score_formatted = data_response.score.replace(/\n/g, '<br>');
-                            document.getElementById('score').querySelector('.scroll-box').innerHTML = score_formatted;
-                            // console.log(score_formatted);
-                        }
-
-                        if (checkboxStates['grade_details']) {
-                            const grade_details_formatted = data_response.score_details.replace(/\n/g, '<br>');
-                            document.getElementById('grade_details').querySelector('.scroll-box').innerHTML = grade_details_formatted;
-                            // console.log(grade_details_formatted);
-                        }
-                        document.getElementById('audio-analysis-start').style.display = 'none';
-                        document.getElementById('audio-analysis-results').style.display = 'block';
-
-
-
-
-
-
-                        downloadUrl = data_response.excel_link;
-                        console.log('downloadUrl:', downloadUrl);
                     } else {
                         console.log('Запрос все еще обрабатывается...');
                         updateProgressBar(data);
